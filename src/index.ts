@@ -118,6 +118,7 @@ export const pubsub = new PubSub();
     app.use('/graphql',
         AuthMiddleware,
         graphqlUploadExpress({maxFileSize: 10000000, maxFiles: 10, maxFieldSize: 10000000}),
+        // @ts-ignore
         expressMiddleware(server, {
             context: async ({ req, res }) => {
                 // @ts-ignore
