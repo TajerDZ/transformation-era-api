@@ -1,0 +1,5 @@
+export {resolvers as resolversUser} from "./User.js"
+export {resolvers as resolversProduct} from "./Product.js"
+export {resolvers as resolversPermission} from "./Permission.js"
+export {resolvers as resolversNotifications} from "./Notifications.js"
+export {resolvers as resolversGeneral} from "./General.js"

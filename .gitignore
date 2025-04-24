@@ -1,0 +1,15 @@
+.idea
+.env
+.idea
+.vscode
+dist
+package-lock.json
+logs/*
+node_modules
+uploads/*.jpg
+uploads/*.png
+#uploads/*.webp
+uploads/blured/*.jpg
+uploads/blured/*.png
+uploads/blured/*.webp
+*.log
