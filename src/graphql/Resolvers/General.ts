@@ -6,7 +6,7 @@ dotenv.config();
 
 export const resolvers = {
     Query: {
-        basicStatistics: async (parent, {idWorkspace}, {employee}, info) =>  {
+        basicStatistics: async (parent, {idWorkspace}, {}, info) =>  {
             try {
 
                 return {

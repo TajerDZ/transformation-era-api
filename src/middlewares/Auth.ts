@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import {Employee, PermissionGroup, User} from '../models/index.js';
+import {PermissionGroup, User} from '../models/index.js';
 import dotenv from 'dotenv'
 dotenv.config();
 
@@ -44,20 +44,11 @@ export const AuthMiddleware = async (req: any, res: any, next: any) => {
         return next();
     }
 
-    const employee = await Employee.findById(decodedToken?.idE, {
-        _id: 1, idPermissionGroup: 1, role: 1, jobPosition: 1, activation: 1,
-    })
-    // if (!employee.activation) {
-    //     req.isAuth = false;
-    //     return next();
-    // }
-
-    let employeePermission = await PermissionGroup.findById(employee?.idPermissionGroup);
+    let employeePermission = await PermissionGroup.findById(authUser?._id);
 
 
     req.isAuth = true;
     req.user = authUser;
-    req.employee = employee;
     req.permissions = employeePermission?.permissions;
     return next();
 }

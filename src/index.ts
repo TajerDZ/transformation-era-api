@@ -121,11 +121,11 @@ export const pubsub = new PubSub();
         expressMiddleware(server, {
             context: async ({ req, res }) => {
                 // @ts-ignore
-                let {user, employee, permissions, isAuth} = req;
+                let {user, permissions, isAuth} = req;
 
                 let refreshToken = req?.cookies?.["__rf"];
 
-                return { res, req, user, employee, permissions, isAuth, refreshToken };
+                return { res, req, user, permissions, isAuth, refreshToken };
             },
         })
     );

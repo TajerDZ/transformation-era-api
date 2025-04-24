@@ -3,11 +3,11 @@ import {GraphQLScalarType, Kind} from 'graphql';
 import GraphQLUpload from "graphql-upload/GraphQLUpload.mjs"
 
 import {
-    typeDefsUser, typeDefsProduct, typeDefsPermission,
+    typeDefsUser, typeDefsProduct, typeDefsPermission, typeDefsOrder,
     typeDefsNotifications, typeDefsGeneral
 } from "./Schemas/index.js"
 import {
-    resolversUser, resolversProduct, resolversPermission,
+    resolversUser, resolversProduct, resolversPermission, resolversOrder,
     resolversNotifications, resolversGeneral
 } from "./Resolvers/index.js"
 
@@ -130,11 +130,11 @@ const resolvers = {
 
 let schema = makeExecutableSchema({
     typeDefs: [
-        typeDefs, typeDefsUser, typeDefsProduct, typeDefsPermission,
+        typeDefs, typeDefsUser, typeDefsProduct, typeDefsPermission, typeDefsOrder,
         typeDefsNotifications, typeDefsGeneral
     ],
     resolvers: [
-        resolvers, resolversUser, resolversProduct, resolversPermission,
+        resolvers, resolversUser, resolversProduct, resolversPermission, resolversOrder,
         resolversNotifications, resolversGeneral
     ]
 });
