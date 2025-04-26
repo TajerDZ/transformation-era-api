@@ -6,7 +6,7 @@ dotenv.config();
 
 export const resolvers = {
     Query: {
-        basicStatistics: async (parent, {idWorkspace}, {}, info) =>  {
+        basicStatistics: async (parent, {}, {}, info) =>  {
             try {
 
                 return {
@@ -19,7 +19,7 @@ export const resolvers = {
             }
         },
 
-        alertsUser: async (parent, {idUser, idWorkspace}, {user}, info) =>  {
+        alertsUser: async (parent, {idUser}, {user}, info) =>  {
             try {
                 let user = await User.findById(idUser);
 

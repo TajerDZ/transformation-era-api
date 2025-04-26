@@ -11,7 +11,7 @@ export const typeDefs = `#graphql
     }
 
     type Mutation {
-        createUser(content: contentUser!): User! @auth
+        createUser(content: contentUser!): User!
         updateUser(id: ID!, content: contentProfile!): StatusUpdateWithUser @auth @scope(requires: [user])
         deleteUser ( id: ID! ): StatusDelete @auth @scope(requires: [user])
 

@@ -1,6 +1,6 @@
 export const typeDefs = `#graphql
     type Query {
-        allNotifications(idWorkspace: ID, pagination: Pagination): [Notifications!] @auth @scope(requires: [notifications])
+        allNotifications(pagination: Pagination): [Notifications!] @auth @scope(requires: [notifications])
     }
     
     type Mutation {
@@ -10,7 +10,7 @@ export const typeDefs = `#graphql
     }
 
     type Subscription {
-        newNotifications(idWorkspace: ID): Notifications!
+        newNotifications: Notifications!
     }
     
     type StatusUpdateWithNotifications {

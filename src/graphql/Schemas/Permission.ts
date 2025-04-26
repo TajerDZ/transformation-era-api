@@ -1,7 +1,7 @@
 export const typeDefs = `#graphql
     type Query {
         permissionGroup(id: ID): PermissionGroup @auth @scope(requires: [permission])
-        allPermissionGroup(idWorkspace: ID): PermissionGroupWithTotal @auth @scope(requires: [permission])
+        allPermissionGroup: PermissionGroupWithTotal @auth @scope(requires: [permission])
     }
     
     type Mutation {

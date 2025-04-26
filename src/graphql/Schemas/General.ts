@@ -1,7 +1,7 @@
 export const typeDefs = `#graphql
     type Query {
-        basicStatistics(idWorkspace: ID): HomeStatistics @auth
-        alertsUser(idUser: ID, idWorkspace: ID): AlertUser @auth
+        basicStatistics: HomeStatistics @auth
+        alertsUser(idUser: ID): AlertUser @auth
         
     }
 

@@ -8,7 +8,7 @@ dotenv.config();
 
 export const resolvers = {
     Query: {
-        allNotifications: async (parent, {idWorkspace, pagination}, contextValue, info) =>  {
+        allNotifications: async (parent, {pagination}, contextValue, info) =>  {
             try {
                 const options: {limit?: number, skip?: number} = {};
                 if (pagination) {
@@ -17,7 +17,7 @@ export const resolvers = {
                     options.skip = (page - 1) * limit;
                 }
 
-                const notifications = await Notifications.find({idWorkspace}, null, options).sort({createdAt: -1})
+                const notifications = await Notifications.find({}, null, options).sort({createdAt: -1})
 
                 return notifications
             } catch (error) {
@@ -74,9 +74,8 @@ export const resolvers = {
         newNotifications: {
             subscribe: withFilter(
                 () => pubsub.asyncIterableIterator(['CREATE_NOTIFICATIONS']),
-                ({createNotifications}, {idWorkspace}) => {
-                    console.log({createNotifications, idWorkspace}, createNotifications.idWorkspace.toString() === idWorkspace)
-                    return createNotifications.idWorkspace.toString() === idWorkspace
+                ({createNotifications}, {}) => {
+                    return createNotifications
                 }
             ),
             resolve: ({ createNotifications }) => createNotifications

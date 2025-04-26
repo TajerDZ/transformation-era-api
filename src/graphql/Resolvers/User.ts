@@ -29,22 +29,22 @@ export const resolvers = {
                 }
 
                 // If Password don't match
-                if (!user.emailVerify) {
-                    // @ts-ignore
-                    const dateCreated = new Date(user?.createdAt).getTime();
-                    const oneDay = 24 * 60 * 60 * 1000;
-                    const dateNow = new Date().getTime();
-                    const diff = (dateNow - dateCreated) / oneDay;
-
-                    if (diff > 7) {
-                        return new GraphQLError("Email not verify", {extensions: {code: "EMAIL_NOT_VERIFY", http: { status: 422 }}});
-                    }
-                }
+                // if (!user.emailVerify) {
+                //     // @ts-ignore
+                //     const dateCreated = new Date(user?.createdAt).getTime();
+                //     const oneDay = 24 * 60 * 60 * 1000;
+                //     const dateNow = new Date().getTime();
+                //     const diff = (dateNow - dateCreated) / oneDay;
+                //
+                //     if (diff > 7) {
+                //         return new GraphQLError("Email not verify", {extensions: {code: "EMAIL_NOT_VERIFY", http: { status: 422 }}});
+                //     }
+                // }
 
                 // If Password don't match
-                if (!user.activation) {
-                    return new GraphQLError("Account is not active", {extensions: {code: "ACCOUNT_NOT_ACTIVE", http: { status: 422 }}});
-                }
+                // if (!user.activation) {
+                //     return new GraphQLError("Account is not active", {extensions: {code: "ACCOUNT_NOT_ACTIVE", http: { status: 422 }}});
+                // }
 
 
                 // let {ok} = await User.findByIdAndUpdate(user._id, {
@@ -192,7 +192,7 @@ export const resolvers = {
                     ...content,
                     password,
                     activation: true,
-                    emailVerify: false,
+                    emailVerify: true,
                     codeVerify: token
                 })
 

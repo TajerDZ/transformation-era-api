@@ -1,7 +1,7 @@
 export const typeDefs = `#graphql
     type Query {
         order(id: ID): Order @auth @scope(requires: [order])
-        allOrder(idWorkspace: ID, filter: [Filter], pagination: Pagination): OrderWithTotal @auth @scope(requires: [order])
+        allOrder(filter: [Filter], pagination: Pagination): OrderWithTotal @auth @scope(requires: [order])
     }
     
     type Mutation {

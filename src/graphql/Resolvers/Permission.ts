@@ -17,9 +17,9 @@ export const resolvers = {
             }
         },
 
-        allPermissionGroup: async (parent, {idWorkspace}, contextValue, info) =>  {
+        allPermissionGroup: async (parent, {}, contextValue, info) =>  {
             try {
-                let query = {idWorkspace: new Types.ObjectId(idWorkspace), deleted: false};
+                let query = {deleted: false};
 
                 const permissionGroup = await PermissionGroup.find(query)
                 const totalPermissionGroup = await PermissionGroup.countDocuments(query)

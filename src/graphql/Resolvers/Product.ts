@@ -19,9 +19,9 @@ export const resolvers = {
             }
         },
 
-        allProduct: async (parent, {idWorkspace, filter, pagination}, contextValue, info) =>  {
+        allProduct: async (parent, {filter, pagination}, contextValue, info) =>  {
             try {
-                let query = {idWorkspace: new Types.ObjectId(idWorkspace), deleted: false};
+                let query = {deleted: false};
                 if (filter && filter.length > 0) {
                     const newFilter = filter.reduce((acc, { field, operator, value }) => {
                         try {
