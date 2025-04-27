@@ -3,8 +3,8 @@ import {Types} from "mongoose";
 export const typeDefs = `#graphql
     type Query {
         logIn(content: loginInfo): AuthUser!
-        user(id: ID): User @auth @scope(requires: [user])
-        allUser: [User!] @auth @scope(requires: [user])
+        user(id: ID): User @auth #@scope(requires: [user])
+        allUser: [User!] @auth #@scope(requires: [user])
         
         currentUser: User! @auth
         refreshToken: AuthUser
@@ -13,10 +13,10 @@ export const typeDefs = `#graphql
     type Mutation {
         singUp(content: contentUser!): User!
         createUser(content: contentUser!): User! @auth
-        updateUser(id: ID!, content: contentProfile!): StatusUpdateWithUser @auth @scope(requires: [user])
-        deleteUser ( id: ID! ): StatusDelete @auth @scope(requires: [user])
+        updateUser(id: ID!, content: contentProfile!): StatusUpdateWithUser @auth #@scope(requires: [user])
+        deleteUser ( id: ID! ): StatusDelete @auth #@scope(requires: [user])
 
-        updateMyPassword(id: ID!, content: contentPassword!): StatusUpdate @auth @scope(requires: [user])
+        updateMyPassword(id: ID!, content: contentPassword!): StatusUpdate @auth #@scope(requires: [user])
 
         checkVerificationUser(email: String, code: String): StatusUpdateWithUser!
         resendVerificationEmail(email: String): StatusUpdate!
@@ -25,7 +25,7 @@ export const typeDefs = `#graphql
         checkOTPPassword(email: String, code: String): StatusUpdate!
         changePassword(content: contentChangePassword): StatusUpdate!
 
-        activeUser (id: ID!, activation: Boolean): StatusUpdate! @auth @scope(requires: [user])
+        activeUser (id: ID!, activation: Boolean): StatusUpdate! @auth #@scope(requires: [user])
         logOut: StatusDelete
     }
 

@@ -1,14 +1,14 @@
 export const typeDefs = `#graphql
     type Query {
-        order(id: ID): Order @auth @scope(requires: [order])
-        allOrder(filter: [Filter], pagination: Pagination): OrderWithTotal @auth @scope(requires: [order])
+        order(id: ID): Order @auth #@scope(requires: [order])
+        allOrder(filter: [Filter], pagination: Pagination): OrderWithTotal @auth #@scope(requires: [order])
     }
     
     type Mutation {
-        createOrder(content: contentOrder!): Order! @auth @scope(requires: [order])
-        updateOrder(id: ID!, content: contentOrder!): StatusUpdateOrder @auth @scope(requires: [order])
-        deleteOrder (id: ID!): StatusDelete @auth @scope(requires: [order])
-        deleteMultiOrder (id: [ID!]!): StatusDelete @auth @scope(requires: [order])
+        createOrder(content: contentOrder!): Order! @auth #@scope(requires: [order])
+        updateOrder(id: ID!, content: contentOrder!): StatusUpdateOrder @auth #@scope(requires: [order])
+        deleteOrder (id: ID!): StatusDelete @auth #@scope(requires: [order])
+        deleteMultiOrder (id: [ID!]!): StatusDelete @auth #@scope(requires: [order])
     }
     
     type OrderWithTotal {

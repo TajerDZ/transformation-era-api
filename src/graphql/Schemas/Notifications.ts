@@ -1,12 +1,12 @@
 export const typeDefs = `#graphql
     type Query {
-        allNotifications(pagination: Pagination): [Notifications!] @auth @scope(requires: [notifications])
+        allNotifications(pagination: Pagination): [Notifications!] @auth #@scope(requires: [notifications])
     }
     
     type Mutation {
-        createNotifications(content: contentNotifications!): Notifications! @auth @scope(requires: [notifications])
-        updateNotifications(id: ID!, content: contentNotifications!): StatusUpdateWithNotifications @auth @scope(requires: [notifications])
-        deleteNotifications (id: ID!): StatusDelete @auth @scope(requires: [notifications])
+        createNotifications(content: contentNotifications!): Notifications! @auth #@scope(requires: [notifications])
+        updateNotifications(id: ID!, content: contentNotifications!): StatusUpdateWithNotifications @auth #@scope(requires: [notifications])
+        deleteNotifications (id: ID!): StatusDelete @auth #@scope(requires: [notifications])
     }
 
     type Subscription {
