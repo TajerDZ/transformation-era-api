@@ -51,7 +51,8 @@ export const typeDefs = `#graphql
     type User {
         id:                 ID
         thumbnail:               String
-        name:               String
+        firstname:               String
+        lastname:               String
         email:              String
         phone:              String
         
@@ -69,7 +70,8 @@ export const typeDefs = `#graphql
 
     input contentUser {
         thumbnail:       String
-        name:       String
+        firstname:               String
+        lastname:               String
         email:      String
         phone:      String
         
@@ -79,7 +81,8 @@ export const typeDefs = `#graphql
     }
 
     input contentProfile {
-        name:               String
+        firstname:               String
+        lastname:               String
         email:              String
         phone:              String
     }

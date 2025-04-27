@@ -5,7 +5,8 @@ import {SoftDeleteDocument} from "mongoose-delete";
 
 export interface  UserI extends SoftDeleteDocument {
     thumbnail: string | null
-    name: string | null
+    firstname: string | null
+    lastname: string | null
     email: string | null
 
     phone: string | null
@@ -22,7 +23,8 @@ export interface  UserI extends SoftDeleteDocument {
 
 export const UserSchema = new Schema<UserI>({
     thumbnail: { type: String },
-    name: { type: String, required: true },
+    firstname: { type: String, required: true },
+    lastname: { type: String, required: true },
     email: { type: String, required: true, unique: true },
 
     phone: { type: String, required: true },
