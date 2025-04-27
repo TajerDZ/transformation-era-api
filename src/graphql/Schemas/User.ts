@@ -11,7 +11,8 @@ export const typeDefs = `#graphql
     }
 
     type Mutation {
-        createUser(content: contentUser!): User!
+        singUp(content: contentUser!): User!
+        createUser(content: contentUser!): User! @auth
         updateUser(id: ID!, content: contentProfile!): StatusUpdateWithUser @auth @scope(requires: [user])
         deleteUser ( id: ID! ): StatusDelete @auth @scope(requires: [user])
 
@@ -49,6 +50,7 @@ export const typeDefs = `#graphql
 
     type User {
         id:                 ID
+        thumbnail:               String
         name:               String
         email:              String
         phone:              String
@@ -66,6 +68,7 @@ export const typeDefs = `#graphql
     }
 
     input contentUser {
+        thumbnail:       String
         name:       String
         email:      String
         phone:      String

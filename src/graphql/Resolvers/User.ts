@@ -52,7 +52,7 @@ export const resolvers = {
                 // }, {includeResultMetadata: true, new: true});
 
                 // Issue Token
-                let token = AuthToken({id: user._id}, 365);
+                let token = AuthToken({id: user._id, role: user.role}, 365);
 
                 return {token, user}
             } catch (error) {
@@ -171,6 +171,39 @@ export const resolvers = {
     },
 
     Mutation: {
+        singUp: async (parent, {content}, contextValue, info) =>  {
+            try {
+                let alreadyExist = await alreadyExistUser(content.email, content.phone);
+
+                if (alreadyExist !== false) {
+                    return new GraphQLError(alreadyExist.message, {
+                        extensions: {
+                            code: alreadyExist.code,
+                            http: { status: 403 }
+                        }
+
+                    })
+                }
+
+                let token = generator({chars: '0-9'}).generate(6)
+                let password = await hashPassword(content.password);
+
+                let user = await User.create({
+                    ...content,
+                    password,
+                    activation: true,
+                    emailVerify: true,
+                    codeVerify: token
+                })
+
+                await verificationMail ({to: content.email, token: token});
+
+                return user
+            } catch (error) {
+                throw new GraphQLError(error)
+            }
+        },
+
         createUser: async (parent, {content}, contextValue, info) =>  {
             try {
                 let alreadyExist = await alreadyExistUser(content.email, content.phone);
