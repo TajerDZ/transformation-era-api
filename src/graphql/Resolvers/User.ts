@@ -46,7 +46,6 @@ export const resolvers = {
                 //     return new GraphQLError("Account is not active", {extensions: {code: "ACCOUNT_NOT_ACTIVE", http: { status: 422 }}});
                 // }
 
-
                 // let {ok} = await User.findByIdAndUpdate(user._id, {
                 //     firebaseToken: content.firebaseToken
                 // }, {includeResultMetadata: true, new: true});
