@@ -1,6 +1,6 @@
 import {GraphQLError} from "graphql";
 import dotenv from 'dotenv';
-import {Order, } from "../../models/index.js";
+import {Order, Product, User } from "../../models/index.js";
 import {Types} from "mongoose";
 import {buildFilter} from "../../helpers/index.js";
 
@@ -66,7 +66,7 @@ export const resolvers = {
     Order: {
         product: async ({idOrder}, {id}, contextValue, info) =>  {
             try {
-                const product = await Order.findById(idOrder);
+                const product = await Product.findById(idOrder);
 
                 return product
             } catch (error) {
@@ -75,7 +75,7 @@ export const resolvers = {
         },
         user: async ({idUser}, {id}, contextValue, info) =>  {
             try {
-                const user = await Order.findById(idUser);
+                const user = await User.findById(idUser);
 
                 return user
             } catch (error) {
