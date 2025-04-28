@@ -64,9 +64,9 @@ export const resolvers = {
     },
     
     Order: {
-        product: async ({idOrder}, {id}, contextValue, info) =>  {
+        product: async ({idProduct}, {id}, contextValue, info) =>  {
             try {
-                const product = await Product.findById(idOrder);
+                const product = await Product.findById(idProduct);
 
                 return product
             } catch (error) {
