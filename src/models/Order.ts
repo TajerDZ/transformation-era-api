@@ -7,21 +7,15 @@ import 'dotenv/config'
 export interface OrderI extends SoftDeleteDocument {
     section: string | null
 
-    fullName: string | null
-    email: string | null
-    phone: string | null
-
-    idProduct: Types.ObjectId | null
+    idUser: any
+    idProduct: any
 }
 
 export const OrderSchema = new Schema<OrderI>({
     section: { type: String, required: true },
 
-    fullName: { type: String },
-    email: { type: String },
-    phone: { type: String },
-
-    idProduct: [{ type: Types.ObjectId, ref: 'Product' }],
+    idUser: { type: Types.ObjectId, ref: 'User' },
+    idProduct: { type: Types.ObjectId, ref: 'Product' }
 }, {
     timestamps: true
 });

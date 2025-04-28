@@ -73,6 +73,15 @@ export const resolvers = {
                 throw new GraphQLError(error)
             }
         },
+        user: async ({idUser}, {id}, contextValue, info) =>  {
+            try {
+                const user = await Order.findById(idUser);
+
+                return user
+            } catch (error) {
+                throw new GraphQLError(error)
+            }
+        },
     },
 
     Mutation: {

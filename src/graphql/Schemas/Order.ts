@@ -24,12 +24,10 @@ export const typeDefs = `#graphql
     type Order {
         id:         ID
         section:     String
-        fullName:       String
-        email: String
 
-        phone:     String
+        user:     User
 
-        product: [Product]
+        product: Product
     
         createdAt:  Date
         updatedAt:  Date
@@ -39,10 +37,7 @@ export const typeDefs = `#graphql
     
     input contentOrder {
         section:     String
-        fullName:       String
-        email: String
-
-        phone:     String
+        idUser:    ID
 
         idProduct: ID
     }
