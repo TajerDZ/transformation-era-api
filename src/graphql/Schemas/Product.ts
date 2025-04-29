@@ -9,6 +9,11 @@ export const typeDefs = `#graphql
         updateProduct(id: ID!, content: contentProduct!): StatusUpdateProduct @auth #@scope(requires: [product])
         deleteProduct (id: ID!): StatusDelete @auth #@scope(requires: [product])
         deleteMultiProduct (id: [ID!]!): StatusDelete @auth #@scope(requires: [product])
+
+
+        addPlanToProduct(idProduct: ID!, content: contentPlansProduct!): Product! @auth #@scope(requires: [product])
+        updatePlanInProduct(idProduct: ID!, id: ID!, content: contentPlansProduct!): StatusUpdateProduct @auth #@scope(requires: [product])
+        deletePlanFromProduct (idProduct: ID!, id: ID!): StatusUpdateProduct @auth #@scope(requires: [product])
     }
 
     type ProductWithTotal {
@@ -30,12 +35,31 @@ export const typeDefs = `#graphql
 
         description:     String
 
-        details: [String]
+        plans: [PlansProduct]
     
         createdAt:  Date
         updatedAt:  Date
         deletedAt:  Date
         deleted:    Boolean
+    }
+
+    type PlansProduct {
+        id:         ID
+        details: [DetailsPlansProduct]
+        prices: [PricesPlansProduct]
+    }
+
+    type DetailsPlansProduct {
+        id:         ID
+        key: String
+        value: String
+    }
+
+    type PricesPlansProduct {
+        id:         ID
+        key: String
+        value: Float
+        discount: Float
     }
 
     input contentProduct {
@@ -46,6 +70,22 @@ export const typeDefs = `#graphql
 
         description:     String
 
-        details: [String]
+        plans: [contentPlansProduct]
+    }
+
+    input contentPlansProduct {
+        details: [contentDetailsPlansProduct]
+        prices: [contentPricesPlansProduct]
+    }
+
+    input contentDetailsPlansProduct {
+        key: String
+        value: String
+    }
+
+    input contentPricesPlansProduct {
+        key: String
+        value: Float
+        discount: Float
     }
 `

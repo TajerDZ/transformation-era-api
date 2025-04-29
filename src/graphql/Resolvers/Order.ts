@@ -60,7 +60,6 @@ export const resolvers = {
                 throw new GraphQLError(error)
             }
         },
-
     },
     
     Order: {

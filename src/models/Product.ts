@@ -8,22 +8,43 @@ export interface ProductI extends SoftDeleteDocument {
     thumbnail?: string
     name: string | null
 
-    price: number | null
     type: string | null
     description: string | null
 
-    details: string[]
+    plans: {
+        details: {
+            key: string,
+            value: string
+        }[]
+        prices: {
+            key: string,
+            value: number,
+            discount: number
+        }
+    }[]
+
+    tva: number | null
 }
 
 export const ProductSchema = new Schema<ProductI>({
     thumbnail:  { type: String},
     name: { type: String, required: true },
-    price: { type: Number },
     type: { type: String },
-
     description: { type: String },
 
-    details: [{ type: String }],
+    plans: [{
+        details: [{
+            key: { type: String },
+            value: { type: String }
+        }],
+        prices: [{
+            key: { type: String },
+            value: { type: Number },
+            discount: { type: Number }
+        }]
+    }],
+
+    tva: { type: Number },
 
 }, {
     timestamps: true

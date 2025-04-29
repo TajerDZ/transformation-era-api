@@ -123,5 +123,66 @@ export const resolvers = {
             }
         },
 
+        addPlanToProduct: async (parent, {idProduct, content}, contextValue, info) =>  {
+            try {
+                let result = await Product.findByIdAndUpdate(idProduct, {
+                    $push: {plans: {content}},
+                }, {includeResultMetadata: true, new: true});
+
+                return {
+                    data: result?.value,
+                    status: result?.ok === 1
+                }
+            } catch (error) {
+                throw new GraphQLError(error)
+            }
+        },
+
+        updatePlanInProduct: async (parent, {idProduct, id, content}, contextValue, info) =>  {
+            try {
+                let product = await Product.findOne({
+                    _id: new Types.ObjectId(idProduct),
+                    plans: {$elemMatch: {_id: new Types.ObjectId(id)}}
+                }, {"plans.$": 1});
+
+                if (product?.plans?.length > 0) {
+                    let result = await Product.findOneAndUpdate({
+                        _id: new Types.ObjectId(idProduct),
+                        "plans._id": new Types.ObjectId(id)
+                    }, {
+                        $set: {
+                            "plans.$.details": content?.details,
+                            "plans.$.prices": content?.prices
+                        }
+                    }, {new: true});
+
+                    if (result) {
+                        return {
+                            data: result,
+                            status: true
+                        }
+                    }
+                    return {data: null, status: false}
+                }
+
+                return {data: null, status: false}
+            } catch (error) {
+                throw new GraphQLError(error)
+            }
+        },
+        deletePlanFromProduct: async (parent, {idProduct, id}, contextValue, info) =>  {
+            try {
+                let result = await Product.findByIdAndUpdate(idProduct, {
+                    $pull: {plans: {_id: new Types.ObjectId(id)}},
+                }, {includeResultMetadata: true, new: true});
+
+                return {
+                    data: result?.value,
+                    status: result?.ok === 1
+                }
+            } catch (error) {
+                throw new GraphQLError(error)
+            }
+        },
     }
 }
