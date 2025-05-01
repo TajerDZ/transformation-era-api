@@ -45,7 +45,7 @@ export const typeDefs = `#graphql
 
     type PlansProduct {
         id:         ID
-        name:       ID
+        name:       String
         details: [DetailsPlansProduct]
         prices: [PricesPlansProduct]
     }
@@ -75,6 +75,7 @@ export const typeDefs = `#graphql
     }
 
     input contentPlansProduct {
+        name:       String
         details: [contentDetailsPlansProduct]
         prices: [contentPricesPlansProduct]
     }
