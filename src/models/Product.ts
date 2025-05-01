@@ -12,6 +12,7 @@ export interface ProductI extends SoftDeleteDocument {
     description: string | null
 
     plans: {
+        name: string,
         details: {
             key: string,
             value: string
@@ -33,6 +34,7 @@ export const ProductSchema = new Schema<ProductI>({
     description: { type: String },
 
     plans: [{
+        name: String,
         details: [{
             key: { type: String },
             value: { type: String }
