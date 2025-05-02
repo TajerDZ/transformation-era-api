@@ -81,6 +81,74 @@ export const resolvers = {
                 throw new GraphQLError(error)
             }
         },
+        plan: async ({idProduct, idPlan}, {id}, contextValue, info) =>  {
+            try {
+                const product = await Product.findOne({
+                    _id: idProduct,
+                    plans: {$elemMatch: {_id: idPlan}}
+                }, {"plans.$": 1});
+
+                return product?.plans?.[0] || null
+            } catch (error) {
+                throw new GraphQLError(error)
+            }
+        },
+        pricePlans: async ({idProduct, idPlan, idPrice}, {id}, contextValue, info) =>  {
+            try {
+                const product = await Product.findOne({
+                    _id: idProduct,
+                    plans: {$elemMatch: {_id: idPlan}}
+                }, {"plans.$": 1});
+                const plan = product?.plans?.[0]
+
+                //@ts-ignore
+                const pricePlans = plan?.prices?.find(price => price?._id?.toString() === idPrice?.toString())
+
+                return pricePlans || null
+            } catch (error) {
+                throw new GraphQLError(error)
+            }
+        },
+    },
+
+    TimeLineOrder: {
+        oldProduct: async ({oldIdProduct}, {id}, contextValue, info) =>  {
+            try {
+                const product = await Product.findById(oldIdProduct);
+
+                return product
+            } catch (error) {
+                throw new GraphQLError(error)
+            }
+        },
+        oldPlan: async ({oldIdProduct, oldIdPlan}, {id}, contextValue, info) =>  {
+            try {
+                const product = await Product.findOne({
+                    _id: oldIdProduct,
+                    plans: {$elemMatch: {_id: oldIdPlan}}
+                }, {"plans.$": 1});
+
+                return product?.plans?.[0] || null
+            } catch (error) {
+                throw new GraphQLError(error)
+            }
+        },
+        oldPrice: async ({oldIdProduct, oldIdPlan, oldIdPrice}, {id}, contextValue, info) =>  {
+            try {
+                const product = await Product.findOne({
+                    _id: oldIdProduct,
+                    plans: {$elemMatch: {_id: oldIdPlan}}
+                }, {"plans.$": 1});
+                const plan = product?.plans?.[0]
+
+                //@ts-ignore
+                const pricePlans = plan?.prices?.find(price => price?._id?.toString() === oldIdPrice?.toString())
+
+                return pricePlans || null
+            } catch (error) {
+                throw new GraphQLError(error)
+            }
+        },
     },
 
     Mutation: {
