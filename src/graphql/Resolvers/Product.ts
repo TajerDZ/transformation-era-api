@@ -126,7 +126,7 @@ export const resolvers = {
         addPlanToProduct: async (parent, {idProduct, content}, contextValue, info) =>  {
             try {
                 let result = await Product.findByIdAndUpdate(idProduct, {
-                    $push: {plans: {content}},
+                    $push: {plans: {...content}},
                 }, {includeResultMetadata: true, new: true});
 
                 return {
@@ -151,6 +151,7 @@ export const resolvers = {
                         "plans._id": new Types.ObjectId(id)
                     }, {
                         $set: {
+                            "plans.$.name": content?.name,
                             "plans.$.details": content?.details,
                             "plans.$.prices": content?.prices
                         }
