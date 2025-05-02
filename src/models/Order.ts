@@ -12,6 +12,7 @@ export interface OrderI extends SoftDeleteDocument {
     idPlan: any
     idPrice: any
     price: number
+    duration: string
     renewalDate: Date
     status: string
 
@@ -35,6 +36,7 @@ export const OrderSchema = new Schema<OrderI>({
     idPlan: { type: Types.ObjectId },
     idPrice: { type: Types.ObjectId },
     price: { type: Number },
+    duration: { type: String },
     renewalDate: { type: Date },
     status: { type: String },
 
