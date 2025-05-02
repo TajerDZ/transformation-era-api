@@ -1,7 +1,12 @@
+import {InvoiceSchema} from "../../models/Invoice";
+
 export const typeDefs = `#graphql
     type Query {
         order(id: ID): Order @auth #@scope(requires: [order])
         allOrder(filter: [Filter], pagination: Pagination): OrderWithTotal @auth #@scope(requires: [order])
+
+        invoice(id: ID): Order @auth #@scope(requires: [order])
+        allInvoice(filter: [Filter], pagination: Pagination): OrderWithTotal @auth #@scope(requires: [order])
     }
     
     type Mutation {
@@ -9,6 +14,10 @@ export const typeDefs = `#graphql
         updateOrder(id: ID!, content: contentOrder!): StatusUpdateOrder @auth #@scope(requires: [order])
         deleteOrder (id: ID!): StatusDelete @auth #@scope(requires: [order])
         deleteMultiOrder (id: [ID!]!): StatusDelete @auth #@scope(requires: [order])
+        
+        createInvoice(content: contentInvoice!): Invoice! @auth #@scope(requires: [order])
+        updateInvoice(id: ID!, content: contentInvoice!): StatusUpdateInvoice @auth #@scope(requires: [order])
+        deleteInvoice(id: ID!): StatusDelete @auth #@scope(requires: [order])
     }
     
     type OrderWithTotal {
@@ -18,6 +27,11 @@ export const typeDefs = `#graphql
     
     type StatusUpdateOrder {
         data: Order
+        status: Boolean
+    }
+
+    type StatusUpdateInvoice {
+        data: Invoice
         status: Boolean
     }
     
@@ -52,6 +66,17 @@ export const typeDefs = `#graphql
         oldPlan: PlansProduct
         oldPrice: PricesPlansProduct
     }
+
+    type Invoice {
+        numberInvoice: String
+        type: String
+        price: Float
+        dueDate: Date
+        status: String
+
+        order: Order
+        user: User
+    }
     
     input contentOrder {
         section:     String
@@ -75,5 +100,16 @@ export const typeDefs = `#graphql
         oldIdProduct: ID
         oldIdPlan: ID
         oldIdPrice: ID
+    }
+
+    input contentInvoice {
+        numberInvoice: String
+        type: String
+        price: Float
+        dueDate: Date
+        status: String
+    
+        idOrder: ID
+        idUser: ID
     }
 `
