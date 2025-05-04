@@ -43,9 +43,8 @@ export const pubsub = new PubSub();
         "http://localhost:3003",
         "http://localhost:3004",
         "http://localhost:3005",
-        "https://woocommerce.bi3li.shop",
-        "https://sendibad-admin.bi3li.cloud",
-        "https://admin.sendibad.shop"
+        "https://r0kswwwokcscg8kkgow8gc4o.coolify.bi3li.cloud",
+        "https://wcwcksg4sgoockosg0sw0ckg.coolify.bi3li.cloud"
     ]
 
     let corsOptionsDelegate = function (req: any, callback: any) {
