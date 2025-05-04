@@ -9,11 +9,11 @@ dotenv.config();
 
 export const resolvers = {
     Query: {
-        product: async (parent, {id}, contextValue, info) =>  {
+        order: async (parent, {id}, contextValue, info) =>  {
             try {
-                const product = await Order.findById(id);
+                const order = await Order.findById(id);
 
-                return product
+                return order
             } catch (error) {
                 throw new GraphQLError(error)
             }
