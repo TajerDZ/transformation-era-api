@@ -15,6 +15,7 @@ export interface OrderI extends SoftDeleteDocument {
     duration: string
     renewalDate: Date
     status: string
+    domainName: string
 
     timeLine: {
         type: string
@@ -39,6 +40,7 @@ export const OrderSchema = new Schema<OrderI>({
     duration: { type: String },
     renewalDate: { type: Date },
     status: { type: String },
+    domainName: { type: String },
 
     timeLine: [{
         type: { type: String },

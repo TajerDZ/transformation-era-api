@@ -48,6 +48,7 @@ export const typeDefs = `#graphql
         price:  Float
         renewalDate: Date
         status: String
+        domainName: String
 
         timeLine: [TimeLineOrder]
     
@@ -89,6 +90,7 @@ export const typeDefs = `#graphql
         price:  Float
         renewalDate: Date
         status: String
+        domainName: String
 
         timeLine: [contentTimeLine]
     }
