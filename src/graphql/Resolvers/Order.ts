@@ -61,6 +61,48 @@ export const resolvers = {
             }
         },
 
+        allOrderClient: async (parent, {idUser, filter, pagination}, contextValue, info) =>  {
+            try {
+                let query = {idUser: new Types.ObjectId(idUser), deleted: false};
+                if (filter && filter.length > 0) {
+                    const newFilter = filter.reduce((acc, { field, operator, value }) => {
+                        try {
+                            // تحويل القيمة إذا لزم الأمر (مثل $in يتطلب Array)
+                            const parsedValue = operator === '$in' ? JSON.parse(value) : value;
+
+                            // دمج الشروط
+                            acc[field] = operator === '$in' ? { [operator]: parsedValue, options: "i" } : { [operator]: parsedValue };
+                        } catch (error) {
+                            return new GraphQLError(`Invalid value for operator ${operator}: ${error.message}`);
+                        }
+                        return acc;
+                    }, {});
+
+                    const mongoFilter = await buildFilter(filter);
+
+                    query = {...query, ...mongoFilter}
+                }
+
+                const options: {limit?: number, skip?: number, sort?: any} = {};
+                if (pagination) {
+                    const {limit, page} = pagination;
+                    options.limit = limit;
+                    options.skip = (page - 1) * limit;
+                    options.sort = {createdAt: -1};
+                }
+
+                const products = await Order.find(query, null, options)
+                const totalOrders = await Order.countDocuments(query)
+
+                return {
+                    data: products,
+                    total: totalOrders
+                }
+            } catch (error) {
+                throw new GraphQLError(error)
+            }
+        },
+
         invoice: async (parent, {id}, contextValue, info) =>  {
             try {
                 const invoice = await Invoice.findById(id);
