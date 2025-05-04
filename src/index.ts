@@ -50,6 +50,7 @@ export const pubsub = new PubSub();
     let corsOptionsDelegate = function (req: any, callback: any) {
         let corsOptions;
 
+        console.log("Origin:", req.header('Origin'))
         if (whitelist.indexOf(req.header('Origin')) !== -1) {
             corsOptions = {origin: req.header('Origin'), credentials: true}
         } else {
