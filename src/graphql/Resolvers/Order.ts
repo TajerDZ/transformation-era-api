@@ -384,11 +384,12 @@ export const resolvers = {
                     //@ts-ignore
                     const pricePlans = plan?.prices?.find(price => price?._id?.toString() === order.idPrice?.toString())
 
+                    console.log(pricePlans)
                     const invoice = await Invoice.create({
                         // numberInvoice: order.numberInvoice,
                         type: "renew",
                         status: "pending",
-                        price: pricePlans?.value - (pricePlans?.value * pricePlans?.discount / 100),
+                        price: pricePlans?.value - ((pricePlans?.value || 0) * (pricePlans?.discount || 0) / 100),
                         dueDate: dueDate,
                         idOrder: order._id,
                         idUser: order.idUser
@@ -416,6 +417,7 @@ export const resolvers = {
                     return {data: null, status: false}
                 }
             } catch (error) {
+                console.log(error)
                 throw new GraphQLError(error)
             }
         },
@@ -439,7 +441,7 @@ export const resolvers = {
                         // numberInvoice: order.numberInvoice,
                         type: "renew",
                         status: "pending",
-                        price: pricePlans?.value - (pricePlans?.value * pricePlans?.discount / 100),
+                        price: pricePlans?.value - ((pricePlans?.value || 0) * (pricePlans?.discount || 0) / 100),
                         dueDate: dueDate,
                         idOrder: order._id,
                         idUser: order.idUser
