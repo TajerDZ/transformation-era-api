@@ -61,6 +61,7 @@ export const typeDefs = `#graphql
         key: String
         value: Float
         discount: Float
+        duration: Int
     }
 
     input contentProduct {
@@ -86,8 +87,10 @@ export const typeDefs = `#graphql
     }
 
     input contentPricesPlansProduct {
+        _id:         ID
         key: String
         value: Float
         discount: Float
+        duration: Int
     }
 `
