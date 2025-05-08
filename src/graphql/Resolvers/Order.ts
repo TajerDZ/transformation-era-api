@@ -381,6 +381,8 @@ export const resolvers = {
                     }, {"plans.$": 1});
 
                     console.log({product})
+                    console.log(product?.plans)
+
                     const plan = product?.plans?.[0]
                     //@ts-ignore
                     const pricePlans = plan?.prices?.find(price => price?._id?.toString() === order.idPrice?.toString())
