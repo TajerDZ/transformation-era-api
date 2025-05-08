@@ -377,9 +377,10 @@ export const resolvers = {
                     const product = await Product.findOne({
                         _id: order.idProduct,
                         "plans._id": order.idPlan,
-                        "plans.prices._id": order.idPrice
+                        // "plans.prices._id": order.idPrice
                     }, {"plans.$": 1});
 
+                    console.log({product})
                     const plan = product?.plans?.[0]
                     //@ts-ignore
                     const pricePlans = plan?.prices?.find(price => price?._id?.toString() === order.idPrice?.toString())
@@ -430,8 +431,10 @@ export const resolvers = {
                     const product = await Product.findOne({
                         _id: order.idProduct,
                         "plans._id": idPlan,
-                        "plans.prices._id": idPrice
+                        // "plans.prices._id": idPrice
                     }, {"plans.$": 1});
+
+                    console.log({product})
 
                     const plan = product?.plans?.[0]
                     //@ts-ignore
