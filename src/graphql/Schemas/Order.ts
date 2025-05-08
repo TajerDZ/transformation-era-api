@@ -20,7 +20,7 @@ export const typeDefs = `#graphql
         updateInvoice(id: ID!, content: contentInvoice!): StatusUpdateInvoice @auth #@scope(requires: [order])
         deleteInvoice(id: ID!): StatusDelete @auth #@scope(requires: [order])
         
-        renewOrder(idOrder: ID!, idPrice: ID): StatusUpdateOrder @auth #@scope(requires: [order]
+        renewOrder(idOrder: ID!, idPrice: ID, dueDate: Date): StatusUpdateOrder @auth #@scope(requires: [order]
         upgradeOrder(idOrder: ID!, idPlan: ID, idPrice: ID): StatusUpdateOrder @auth #@scope(requires: [order]
     }
     
