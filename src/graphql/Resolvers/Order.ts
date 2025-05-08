@@ -384,11 +384,22 @@ export const resolvers = {
                     //@ts-ignore
                     const pricePlans = plan?.prices?.find(price => price?._id?.toString() === idPrice)
 
+                    const totalPrice = pricePlans?.value * pricePlans?.duration
+                    const totalDiscount = (pricePlans?.value * pricePlans?.duration) * pricePlans?.discount / 100
+                    const totalTva = (pricePlans?.value * pricePlans?.duration) * 0.15
+
                     const invoice = await Invoice.create({
                         // numberInvoice: order.numberInvoice,
                         type: "renew",
                         status: "pending",
-                        price: pricePlans?.value - ((pricePlans?.value || 0) * (pricePlans?.discount || 0) / 100),
+                        price: pricePlans?.value,
+
+                        duration: pricePlans?.duration,
+                        totalDiscount: totalDiscount,
+                        totalPrice: totalPrice - totalDiscount + totalTva,
+                        subTotalPrice: totalPrice,
+                        tva: totalTva,
+
                         dueDate: dueDate,
                         idOrder: order._id,
                         idUser: order.idUser
@@ -433,17 +444,26 @@ export const resolvers = {
                         // "plans.prices._id": idPrice
                     }, {"plans.$": 1});
 
-                    console.log({product})
-
                     const plan = product?.plans?.[0]
                     //@ts-ignore
                     const pricePlans = plan?.prices?.find(price => price?._id?.toString() === idPrice)
 
+                    const totalPrice = pricePlans?.value * pricePlans?.duration
+                    const totalDiscount = (pricePlans?.value * pricePlans?.duration) * pricePlans?.discount / 100
+                    const totalTva = (pricePlans?.value * pricePlans?.duration) * 0.15
+
                     const invoice = await Invoice.create({
                         // numberInvoice: order.numberInvoice,
-                        type: "renew",
+                        type: "upgrade",
                         status: "pending",
-                        price: pricePlans?.value - ((pricePlans?.value || 0) * (pricePlans?.discount || 0) / 100),
+                        price: pricePlans?.value,
+
+                        duration: pricePlans?.duration,
+                        totalDiscount: totalDiscount,
+                        totalPrice: totalPrice - totalDiscount + totalTva,
+                        subTotalPrice: totalPrice,
+                        tva: totalTva,
+
                         dueDate: dueDate,
                         idOrder: order._id,
                         idUser: order.idUser

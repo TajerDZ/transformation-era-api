@@ -76,6 +76,11 @@ export const typeDefs = `#graphql
 #        numberInvoice: String
         type: String
         price: Float
+        duration:  Int
+        totalDiscount:  Float
+        totalPrice:  Float
+        subTotalPrice:  Float
+        tva:  Float
         dueDate: Date
         status: String
 
@@ -112,6 +117,11 @@ export const typeDefs = `#graphql
 #        numberInvoice: String
         type: String
         price: Float
+        duration:  Int
+        totalDiscount:  Float
+        totalPrice:  Float
+        subTotalPrice:  Float
+        tva:  Float
         dueDate: Date
         status: String
     
