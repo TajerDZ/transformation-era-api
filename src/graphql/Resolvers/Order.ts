@@ -380,15 +380,10 @@ export const resolvers = {
                         // "plans.prices._id": order.idPrice
                     }, {"plans.$": 1});
 
-                    console.log({product})
-
                     const plan = product?.plans?.[0]
-                    console.log(plan)
-                    console.log(idPrice)
                     //@ts-ignore
                     const pricePlans = plan?.prices?.find(price => price?._id?.toString() === idPrice)
 
-                    console.log(pricePlans)
                     const invoice = await Invoice.create({
                         // numberInvoice: order.numberInvoice,
                         type: "renew",
@@ -401,6 +396,7 @@ export const resolvers = {
 
                     const {ok, value} = await Order.findByIdAndUpdate(idOrder, {
                         idPrice: new Types.ObjectId(idPrice),
+                        renewalDate: dueDate,
                         $push: {
                             timeLine: {
                                 type: "renew",
@@ -456,6 +452,7 @@ export const resolvers = {
                     const {ok, value} = await Order.findByIdAndUpdate(idOrder, {
                         idPrice: new Types.ObjectId(idPrice),
                         idPlan: new Types.ObjectId(idPlan),
+                        renewalDate: dueDate,
                         $push: {
                             timeLine: {
                                 type: "upgrade",
