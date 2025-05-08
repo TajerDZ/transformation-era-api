@@ -1,7 +1,7 @@
 import {GraphQLError} from "graphql";
 import dotenv from 'dotenv';
 import {Invoice, Order, Product, User} from "../../models/index.js";
-import {Types} from "mongoose";
+import {Schema, Types} from "mongoose";
 import {buildFilter} from "../../helpers/index.js";
 
 dotenv.config();
@@ -369,5 +369,51 @@ export const resolvers = {
             }
         },
 
+        renewOrder: async (parent, {idOrder, idPrice}, contextValue, info) =>  {
+            try {
+                const order = await Order.findById(idOrder);
+
+                const product = await Product.findOne({
+                    _id: order.idProduct,
+                    "plans._id": order.idPlan,
+                    "plans.prices._id": order.idPrice
+                }, {"plans.$": 1});
+
+                const plan = product?.plans?.[0]
+                //@ts-ignore
+                const pricePlans = plan?.prices?.find(price => price?._id?.toString() === order.idPrice?.toString())
+
+                const invoice = await Invoice.create({
+                    // numberInvoice: order.numberInvoice,
+                    type: "renew",
+                    status: "pending",
+                    price: pricePlans?.value - (pricePlans?.value * pricePlans?.discount / 100),
+                    dueDate: new Date(),
+                    idOrder: order._id,
+                    idUser: order.idUser
+                })
+
+                const {ok, value} = await Order.findByIdAndUpdate(idOrder, {
+                    idPrice: new Types.ObjectId(idPrice),
+                    $push: {
+                        timeLine: {
+                            type: "renew",
+                            createdAt: new Date(),
+                            status: "pending",
+                            oldIdProduct: order.idProduct,
+                            oldIdPlan: order.idPlan,
+                            oldIdPrice: order.idPrice,
+                        }
+                    }
+                }, {includeResultMetadata: true, new: true});
+
+                return {
+                    data: value,
+                    status: ok === 1
+                }
+            } catch (error) {
+                throw new GraphQLError(error)
+            }
+        },
     }
 }

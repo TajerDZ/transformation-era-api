@@ -19,6 +19,9 @@ export const typeDefs = `#graphql
         createInvoice(content: contentInvoice!): Invoice! @auth #@scope(requires: [order])
         updateInvoice(id: ID!, content: contentInvoice!): StatusUpdateInvoice @auth #@scope(requires: [order])
         deleteInvoice(id: ID!): StatusDelete @auth #@scope(requires: [order])
+        
+        renewOrder(idOrder: ID!, idPrice: ID): StatusUpdateOrder @auth #@scope(requires: [order]
+        upgradeOrder(idOrder: ID!, idPlan: ID, idPrice: ID): StatusUpdateOrder @auth #@scope(requires: [order]
     }
     
     type OrderWithTotal {
@@ -70,7 +73,7 @@ export const typeDefs = `#graphql
     }
 
     type Invoice {
-        numberInvoice: String
+#        numberInvoice: String
         type: String
         price: Float
         dueDate: Date
@@ -106,7 +109,7 @@ export const typeDefs = `#graphql
     }
 
     input contentInvoice {
-        numberInvoice: String
+#        numberInvoice: String
         type: String
         price: Float
         dueDate: Date
