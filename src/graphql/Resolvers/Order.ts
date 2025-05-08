@@ -419,5 +419,57 @@ export const resolvers = {
                 throw new GraphQLError(error)
             }
         },
+
+        upgradeOrder: async (parent, {idOrder, idPlan, idPrice, dueDate}, contextValue, info) =>  {
+            try {
+                const order = await Order.findById(idOrder);
+
+                if (order) {
+                    const product = await Product.findOne({
+                        _id: order.idProduct,
+                        "plans._id": idPlan,
+                        "plans.prices._id": idPrice
+                    }, {"plans.$": 1});
+
+                    const plan = product?.plans?.[0]
+                    //@ts-ignore
+                    const pricePlans = plan?.prices?.find(price => price?._id?.toString() === idPrice)
+
+                    const invoice = await Invoice.create({
+                        // numberInvoice: order.numberInvoice,
+                        type: "renew",
+                        status: "pending",
+                        price: pricePlans?.value - (pricePlans?.value * pricePlans?.discount / 100),
+                        dueDate: dueDate,
+                        idOrder: order._id,
+                        idUser: order.idUser
+                    })
+
+                    const {ok, value} = await Order.findByIdAndUpdate(idOrder, {
+                        idPrice: new Types.ObjectId(idPrice),
+                        idPlan: new Types.ObjectId(idPlan),
+                        $push: {
+                            timeLine: {
+                                type: "upgrade",
+                                createdAt: new Date(),
+                                status: "pending",
+                                oldIdProduct: order.idProduct,
+                                oldIdPlan: order.idPlan,
+                                oldIdPrice: order.idPrice,
+                            }
+                        }
+                    }, {includeResultMetadata: true, new: true});
+
+                    return {
+                        data: value,
+                        status: ok === 1
+                    }
+                } else {
+                    return {data: null, status: false}
+                }
+            } catch (error) {
+                throw new GraphQLError(error)
+            }
+        },
     }
 }
