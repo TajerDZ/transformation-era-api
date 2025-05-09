@@ -6,8 +6,8 @@ export const typeDefs = `#graphql
         allOrder(filter: [Filter], pagination: Pagination): OrderWithTotal @auth #@scope(requires: [order])
         allOrderClient(idUser: ID, filter: [Filter], pagination: Pagination): OrderWithTotal @auth #@scope(requires: [order])
 
-        invoice(id: ID): Order @auth #@scope(requires: [order])
-        allInvoice(filter: [Filter], pagination: Pagination): OrderWithTotal @auth #@scope(requires: [order])
+        invoice(id: ID): Invoice @auth #@scope(requires: [order])
+        allInvoice(filter: [Filter], pagination: Pagination): InvoiceWithTotal @auth #@scope(requires: [order])
     }
     
     type Mutation {
@@ -22,6 +22,11 @@ export const typeDefs = `#graphql
         
         renewOrder(idOrder: ID!, idPrice: ID, dueDate: Date): StatusUpdateOrder @auth #@scope(requires: [order]
         upgradeOrder(idOrder: ID!, idPlan: ID, idPrice: ID): StatusUpdateOrder @auth #@scope(requires: [order]
+    }
+    
+    type InvoiceWithTotal {
+        data: [Invoice!]
+        total: Int
     }
     
     type OrderWithTotal {

@@ -27,6 +27,34 @@ export const resolvers = {
                 throw new GraphQLError(error)
             }
         },
+        clientStatistics: async (parent, {idUser}, {}, info) =>  {
+            try {
+                const totalOrder = await Order.aggregate([
+                    {$match: {idUser}},
+                    {$group: {
+                        _id: '$idProduct',
+                        total: { $sum: 1 }
+                    }},
+                    {$lookup: {
+                        from: 'products',
+                        localField: '_id',
+                        foreignField: '_id',
+                        as: 'product'
+                    }},
+                    {$unwind: { path: '$product', preserveNullAndEmptyArrays: false }},
+                    {$project: {
+                        _id: 0,
+                        product: '$product',
+                        total: 1
+                    }}
+                ])
+
+                return totalOrder
+            } catch (error) {
+                console.log("basicStatistics", error)
+                throw new GraphQLError(error)
+            }
+        },
 
 
     },

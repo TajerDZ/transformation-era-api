@@ -4,7 +4,7 @@ export const typeDefs = `#graphql
     type Query {
         logIn(content: loginInfo): AuthUser!
         user(id: ID): User @auth #@scope(requires: [user])
-        allUser: [User!] @auth #@scope(requires: [user])
+        allUser(filter: [Filter], pagination: Pagination): UserWithTotal @auth #@scope(requires: [user])
         
         currentUser: User! @auth
         refreshToken: AuthUser
@@ -27,6 +27,11 @@ export const typeDefs = `#graphql
 
         activeUser (id: ID!, activation: Boolean): StatusUpdate! @auth #@scope(requires: [user])
         logOut: StatusDelete
+    }
+
+    type UserWithTotal {
+        data: [User!]
+        total: Int
     }
 
     type StatusUpdateWithUser {
