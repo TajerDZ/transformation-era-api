@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 import {Invoice, Order, Product, User} from "../../models/index.js";
 import {Schema, Types} from "mongoose";
 import {buildFilter} from "../../helpers/index.js";
+import {withFilter} from "graphql-subscriptions";
+import {pubsub} from "../../index.js";
 
 dotenv.config();
 
@@ -270,11 +272,12 @@ export const resolvers = {
     Mutation: {
         createOrder: async (parent, {content}, contextValue, info) =>  {
             try {
-                let product = await Order.create({
+                let order = await Order.create({
                     ...content
                 })
+                await pubsub.publish('ORDER_CREATED', {createdOrder: order});
 
-                return product
+                return order
             } catch (error) {
                 throw new GraphQLError(error)
             }
@@ -420,6 +423,8 @@ export const resolvers = {
                         }
                     }, {includeResultMetadata: true, new: true});
 
+
+                    await pubsub.publish('ORDER_RENEW', {renewOrder: value});
                     return {
                         data: value,
                         status: ok === 1
@@ -485,6 +490,7 @@ export const resolvers = {
                         }
                     }, {includeResultMetadata: true, new: true});
 
+                    await pubsub.publish('ORDER_UPGRADE', {upgradeOrder: value});
                     return {
                         data: value,
                         status: ok === 1
@@ -495,6 +501,33 @@ export const resolvers = {
             } catch (error) {
                 throw new GraphQLError(error)
             }
+        },
+    },
+
+    Subscription: {
+        createdOrder: {
+            subscribe: withFilter(
+                () => pubsub.asyncIterableIterator(['ORDER_CREATED']),
+                ({createdOrder}, {}) => {
+                    return createdOrder
+                }
+            )
+        },
+        upgradeOrder: {
+            subscribe: withFilter(
+                () => pubsub.asyncIterableIterator(['ORDER_UPGRADE']),
+                ({upgradeOrder}, {idWorkspace}) => {
+                    return upgradeOrder
+                }
+            ),
+        },
+        renewOrder: {
+            subscribe: withFilter(
+                () => pubsub.asyncIterableIterator(['ORDER_RENEW']),
+                ({renewOrder}, {}) => {
+                    return renewOrder
+                }
+            )
         },
     }
 }

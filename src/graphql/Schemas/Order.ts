@@ -23,6 +23,12 @@ export const typeDefs = `#graphql
         renewOrder(idOrder: ID!, idPrice: ID, dueDate: Date): StatusUpdateOrder @auth #@scope(requires: [order]
         upgradeOrder(idOrder: ID!, idPlan: ID, idPrice: ID): StatusUpdateOrder @auth #@scope(requires: [order]
     }
+
+    type Subscription {
+        createdOrder: Order!
+        renewOrder: Order!
+        upgradeOrder: Order!
+    }
     
     type InvoiceWithTotal {
         data: [Invoice!]
