@@ -10,7 +10,35 @@ export const typeDefs = `#graphql
         numberInvoices:     Int
         numberActiveSubscriptions:     Int
         totalRevenue:     Float
+        
+        topProducts: [TopProduct]
+        
+        hostingPlan:    [HostingPlan]
+        domains:    [Domains]
+        productsServices:    [ProductsServices]
     }
+
+    type TopProduct {
+        product:   Product
+        total:     Int
+    }
+
+    type HostingPlan {
+        totalRevenue:     Float
+        month:     Int
+    }
+
+    type Domains {
+        totalRevenue:     Float
+        month:     Int
+    }
+
+    type ProductsServices {
+        totalRevenue:     Float
+        month:     Int
+    }
+
+
 
     type ClientStatistics {
         product:   Product

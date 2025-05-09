@@ -26,6 +26,7 @@ export interface ProductI extends SoftDeleteDocument {
     }[]
 
     tva: number | null
+    activations: boolean | null
 }
 
 export const ProductSchema = new Schema<ProductI>({
@@ -49,6 +50,7 @@ export const ProductSchema = new Schema<ProductI>({
     }],
 
     tva: { type: Number },
+    activations: { type: Boolean, default: true },
 
 }, {
     timestamps: true

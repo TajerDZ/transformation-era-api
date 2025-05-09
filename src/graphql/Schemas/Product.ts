@@ -34,6 +34,7 @@ export const typeDefs = `#graphql
         type: String
 
         description:     String
+        activations: Boolean
 
         plans: [PlansProduct]
     
@@ -71,6 +72,7 @@ export const typeDefs = `#graphql
         type: String
 
         description:     String
+        activations: Boolean
 
         plans: [contentPlansProduct]
     }
