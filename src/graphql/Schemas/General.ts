@@ -25,17 +25,17 @@ export const typeDefs = `#graphql
 
     type HostingPlan {
         totalRevenue:     Float
-        month:     Int
+        month:     String
     }
 
     type Domains {
         totalRevenue:     Float
-        month:     Int
+        month:     String
     }
 
     type ProductsServices {
         totalRevenue:     Float
-        month:     Int
+        month:     String
     }
 
 

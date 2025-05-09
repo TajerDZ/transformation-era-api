@@ -10,7 +10,6 @@ export const typeDefs = `#graphql
         deleteProduct (id: ID!): StatusDelete @auth #@scope(requires: [product])
         deleteMultiProduct (id: [ID!]!): StatusDelete @auth #@scope(requires: [product])
 
-
         addPlanToProduct(idProduct: ID!, content: contentPlansProduct!): StatusUpdateProduct! @auth #@scope(requires: [product])
         updatePlanInProduct(idProduct: ID!, id: ID!, content: contentPlansProduct!): StatusUpdateProduct @auth #@scope(requires: [product])
         deletePlanFromProduct (idProduct: ID!, id: ID!): StatusUpdateProduct @auth #@scope(requires: [product])
