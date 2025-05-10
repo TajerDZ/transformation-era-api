@@ -284,7 +284,61 @@ export const resolvers = {
                 let order = await Order.create({
                     ...content
                 })
-                await pubsub.publish('ORDER_CREATED', {createdOrder: order});
+
+                return order
+            } catch (error) {
+                throw new GraphQLError(error)
+            }
+        },
+
+        createOrderClient: async (parent, {content}, [user], info) =>  {
+            try {
+                const product = await Product.findOne({
+                    _id: content.idProduct,
+                    "plans._id": content.idPlan
+                }, {"plans.$": 1});
+
+                const plan = product?.plans?.[0]
+                //@ts-ignore
+                const pricePlans = plan?.prices?.find(price => price?._id?.toString() === content.idPrice)
+
+                const totalPrice = pricePlans?.value * pricePlans?.duration
+                const totalDiscount = (pricePlans?.value * pricePlans?.duration) * pricePlans?.discount / 100
+                const totalTva = (pricePlans?.value * pricePlans?.duration) * 0.15
+
+                let order = await Order.create({
+                    ...content,
+                    price: totalPrice,
+                    duration: pricePlans?.duration,
+                    status: 'pending',
+                    idUser: user._id,
+                    timeLine: [{
+                        type: "new",
+                        createdAt: new Date(),
+                        status: "pending"
+                    }]
+                })
+
+                const countInvoice = await Invoice.countDocuments()
+                const invoice = await Invoice.create({
+                    numberInvoice: (countInvoice + 1).toString(),
+                    type: "renew",
+                    status: "pending",
+                    price: pricePlans?.value,
+
+                    duration: pricePlans?.duration,
+                    totalDiscount: totalDiscount,
+                    totalPrice: totalPrice - totalDiscount + totalTva,
+                    subTotalPrice: totalPrice,
+                    tva: totalTva,
+
+                    dueDate: renewalDate,
+                    idOrder: order._id,
+                    idProduct: order.idProduct,
+                    idUser: order.idUser
+                })
+
+                await pubsub.publish('ORDER', {order: {order, type: "create"}});
 
                 return order
             } catch (error) {
@@ -424,20 +478,18 @@ export const resolvers = {
                     const {ok, value} = await Order.findByIdAndUpdate(idOrder, {
                         idPrice: new Types.ObjectId(idPrice),
                         renewalDate: dueDate,
+                        price: totalPrice,
                         $push: {
                             timeLine: {
                                 type: "renew",
                                 createdAt: new Date(),
-                                status: "pending",
-                                oldIdProduct: order.idProduct,
-                                oldIdPlan: order.idPlan,
-                                oldIdPrice: order.idPrice,
+                                status: "pending"
                             }
                         }
                     }, {includeResultMetadata: true, new: true});
 
 
-                    await pubsub.publish('ORDER_RENEW', {renewOrder: value});
+                    await pubsub.publish('ORDER', {order: {order, type: "renew"}});
                     return {
                         data: value,
                         status: ok === 1
@@ -493,6 +545,7 @@ export const resolvers = {
                         idPrice: new Types.ObjectId(idPrice),
                         idPlan: new Types.ObjectId(idPlan),
                         renewalDate: dueDate,
+                        price: totalPrice,
                         $push: {
                             timeLine: {
                                 type: "upgrade",
@@ -505,7 +558,7 @@ export const resolvers = {
                         }
                     }, {includeResultMetadata: true, new: true});
 
-                    await pubsub.publish('ORDER_UPGRADE', {upgradeOrder: value});
+                    await pubsub.publish('ORDER', {order: {order, type: "upgrade"}});
                     return {
                         data: value,
                         status: ok === 1
@@ -520,29 +573,11 @@ export const resolvers = {
     },
 
     Subscription: {
-        createdOrder: {
+        order: {
             subscribe: withFilter(
-                () => pubsub.asyncIterableIterator(['ORDER_CREATED']),
-                ({createdOrder}, {}) => {
-                    return createdOrder
-                }
+                () => pubsub.asyncIterableIterator(['ORDER']),
+                ({order}, {}) => order
             )
-        },
-        upgradeOrder: {
-            subscribe: withFilter(
-                () => pubsub.asyncIterableIterator(['ORDER_UPGRADE']),
-                ({upgradeOrder}, {idWorkspace}) => {
-                    return upgradeOrder
-                }
-            ),
-        },
-        renewOrder: {
-            subscribe: withFilter(
-                () => pubsub.asyncIterableIterator(['ORDER_RENEW']),
-                ({renewOrder}, {}) => {
-                    return renewOrder
-                }
-            )
-        },
+        }
     }
 }

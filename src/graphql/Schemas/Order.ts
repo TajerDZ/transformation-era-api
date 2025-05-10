@@ -12,6 +12,7 @@ export const typeDefs = `#graphql
     
     type Mutation {
         createOrder(content: contentOrder!): Order! @auth #@scope(requires: [order])
+        createOrderClient(content: contentOrderClient!): Order! @auth #@scope(requires: [order])
         updateOrder(id: ID!, content: contentOrder!): StatusUpdateOrder @auth #@scope(requires: [order])
         deleteOrder (id: ID!): StatusDelete @auth #@scope(requires: [order])
         deleteMultiOrder (id: [ID!]!): StatusDelete @auth #@scope(requires: [order])
@@ -25,9 +26,12 @@ export const typeDefs = `#graphql
     }
 
     type Subscription {
-        createdOrder: Order!
-        renewOrder: Order!
-        upgradeOrder: Order!
+        order: OrderWithType
+    }
+    
+    type OrderWithType {
+        data: Order!
+        type: String
     }
     
     type InvoiceWithTotal {
@@ -117,6 +121,13 @@ export const typeDefs = `#graphql
         domainName: String
 
         timeLine: [contentTimeLine]
+    }
+    
+    input contentOrderClient {
+        idProduct: ID
+        idPlan: ID
+        idPrice: ID
+        renewalDate: Date
     }
 
     input contentTimeLine {
