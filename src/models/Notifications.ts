@@ -4,13 +4,19 @@ import {SoftDeleteDocument} from "mongoose-delete";
 import {Types} from "mongoose";
 
 export interface NotificationsI extends SoftDeleteDocument {
-    idOrder: Types.ObjectId
+    title: string
+    msg: string
+    icon: string
     type: string
+    details: string
 }
 
 export const NotificationsSchema = new Schema<NotificationsI>({
-    idOrder: { type: Types.ObjectId, ref: 'Order' },
-    type: { type: String }
+    title: { type: String },
+    msg: { type: String },
+    icon: { type: String },
+    type: { type: String },
+    details: { type: String }
 }, {
     timestamps: true
 });

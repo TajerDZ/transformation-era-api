@@ -332,7 +332,7 @@ export const resolvers = {
                     subTotalPrice: totalPrice,
                     tva: totalTva,
 
-                    dueDate: renewalDate,
+                    dueDate: content.renewalDate,
                     idOrder: order._id,
                     idProduct: order.idProduct,
                     idUser: order.idUser
