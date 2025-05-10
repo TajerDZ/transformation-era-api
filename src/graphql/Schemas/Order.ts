@@ -85,7 +85,7 @@ export const typeDefs = `#graphql
 
     type Invoice {
         id:         ID
-        numberInvoice: Int
+        numberInvoice: String
         type: String
         price: Float
         duration:  Int
@@ -130,7 +130,7 @@ export const typeDefs = `#graphql
     }
 
     input contentInvoice {
-        numberInvoice: Int
+        numberInvoice: String
         type: String
         price: Float
         duration:  Int
