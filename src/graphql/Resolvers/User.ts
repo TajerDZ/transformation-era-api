@@ -17,10 +17,10 @@ export const resolvers = {
 
                 const role = req.headers.origin == "https://ds.assar.sa" ? "owner" : "user"
 
-                console.log(req.headers.origin)
 
                 let user = await User.findOne({ email: content.email, role });
 
+                console.log({user})
                 // If Password don't match
                 if (!user) {
                     return new GraphQLError("Email not found", {extensions: {code: "EMAIL_NOT_FOUND", http: { status: 422 }}});
@@ -28,6 +28,7 @@ export const resolvers = {
 
                 let isMatch = await comparePassword(content.password, user.password);
 
+                console.log({isMatch})
                 // If Password don't match
                 if (!isMatch) {
                     return new GraphQLError("Password incorrect", {extensions: {code: "PASSWORD_INCORRECT", http: { status: 422 }}});
@@ -223,7 +224,7 @@ export const resolvers = {
                     })
                 }
 
-                let token = generator({chars: '0-9'}).generate(6)
+                // let token = generator({chars: '0-9'}).generate(6)
                 let password = await hashPassword(content.password);
 
                 let user = await User.create({
@@ -231,10 +232,10 @@ export const resolvers = {
                     password,
                     activation: true,
                     emailVerify: true,
-                    codeVerify: token
+                    // codeVerify: token
                 })
 
-                await verificationMail ({to: content.email, token: token});
+                // await verificationMail ({to: content.email, token: token});
 
                 return user
             } catch (error) {
@@ -256,7 +257,7 @@ export const resolvers = {
                     })
                 }
 
-                let token = generator({chars: '0-9'}).generate(6)
+                // let token = generator({chars: '0-9'}).generate(6)
                 let password = await hashPassword(content.password);
 
                 let user = await User.create({
@@ -264,10 +265,10 @@ export const resolvers = {
                     password,
                     activation: true,
                     emailVerify: true,
-                    codeVerify: token
+                    // codeVerify: token
                 })
 
-                await verificationMail ({to: content.email, token: token});
+                // await verificationMail ({to: content.email, token: token});
 
                 return user
             } catch (error) {
