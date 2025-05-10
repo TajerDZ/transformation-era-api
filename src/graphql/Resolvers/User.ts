@@ -14,7 +14,12 @@ export const resolvers = {
     Query: {
         logIn: async (parent, {content}, {req}, info) =>  {
             try {
-                let user = await User.findOne({ email: content.email });
+
+                const role = req.headers.origin == "https://ds.assar.sa" ? "owner" : "user"
+
+                console.log(req.headers.origin)
+
+                let user = await User.findOne({ email: content.email, role });
 
                 // If Password don't match
                 if (!user) {
@@ -42,9 +47,9 @@ export const resolvers = {
                 // }
 
                 // If Password don't match
-                // if (!user.activation) {
-                //     return new GraphQLError("Account is not active", {extensions: {code: "ACCOUNT_NOT_ACTIVE", http: { status: 422 }}});
-                // }
+                if (!user.activation) {
+                    return new GraphQLError("Account is not active", {extensions: {code: "ACCOUNT_NOT_ACTIVE", http: { status: 422 }}});
+                }
 
                 // let {ok} = await User.findByIdAndUpdate(user._id, {
                 //     firebaseToken: content.firebaseToken
