@@ -41,8 +41,10 @@ export const typeDefs = `#graphql
 
 
     type ClientStatistics {
-        product:   Product
-        total:     Int
+        numberProductsServices:     Int
+        numberDomains:     Int
+        numberHostingPlan:     Int
+        numberInvoices:     Int
     }
     
 `

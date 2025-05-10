@@ -161,27 +161,53 @@ export const resolvers = {
         },
         clientStatistics: async (parent, {idUser}, {}, info) =>  {
             try {
-                const totalOrder = await Order.aggregate([
-                    {$match: {idUser}},
-                    {$group: {
-                        _id: '$idProduct',
-                        total: { $sum: 1 }
-                    }},
+                const numberInvoices = await Invoice.countDocuments({status: "paid", idUser})
+
+                const numberHostingPlan = await Order.aggregate([
+                    {$match: {status: 'active', idUser: new Types.ObjectId(userId)}},
                     {$lookup: {
-                        from: 'products',
-                        localField: '_id',
+                            from: 'products',
+                            localField: 'idProduct',
+                            foreignField: '_id',
+                            as: 'product'
+                        }},
+                    {$unwind: '$product'},
+                    {$match: {'product.type': 'hosting_plan'}},
+                    {$count: 'totalOrders'},
+                ]);
+
+                const numberDomains = await Order.aggregate([
+                    {$match: {status: 'active', idUser: new Types.ObjectId(userId)}},
+                    {$lookup: {
+                    from: 'products',
+                        localField: 'idProduct',
                         foreignField: '_id',
                         as: 'product'
                     }},
-                    {$unwind: { path: '$product', preserveNullAndEmptyArrays: false }},
-                    {$project: {
-                        _id: 0,
-                        product: '$product',
-                        total: 1
-                    }}
-                ])
+                    {$unwind: '$product'},
+                    {$match: {'product.type': 'domains'}},
+                    {$count: 'totalOrders'},
+                ]);
 
-                return totalOrder
+                const numberProductsServices = await Order.aggregate([
+                    {$match: {status: 'active', idUser: new Types.ObjectId(userId)}},
+                    {$lookup: {
+                        from: 'products',
+                        localField: 'idProduct',
+                        foreignField: '_id',
+                        as: 'product'
+                    }},
+                    {$unwind: '$product'},
+                    {$match: {'product.type': 'products_services'}},
+                    {$count: 'totalOrders'}
+                ]);
+
+                return {
+                    numberProductsServices: numberProductsServices?.[0]?.totalOrders || 0,
+                    numberDomains: numberDomains?.[0]?.totalOrders || 0,
+                    numberHostingPlan: numberHostingPlan?.[0]?.totalOrders || 0,
+                    numberInvoices
+                }
             } catch (error) {
                 console.log("basicStatistics", error)
                 throw new GraphQLError(error)
