@@ -1,6 +1,7 @@
 import {GraphQLError} from "graphql";
 import dotenv from 'dotenv';
 import {Invoice, Order, User} from "../../models/index.js";
+import {Types} from "mongoose";
 
 dotenv.config();
 
@@ -164,7 +165,7 @@ export const resolvers = {
                 const numberInvoices = await Invoice.countDocuments({status: "paid", idUser})
 
                 const numberHostingPlan = await Order.aggregate([
-                    {$match: {status: 'active', idUser: new Types.ObjectId(userId)}},
+                    {$match: {status: 'active', idUser: new Types.ObjectId(idUser)}},
                     {$lookup: {
                             from: 'products',
                             localField: 'idProduct',
@@ -177,7 +178,7 @@ export const resolvers = {
                 ]);
 
                 const numberDomains = await Order.aggregate([
-                    {$match: {status: 'active', idUser: new Types.ObjectId(userId)}},
+                    {$match: {status: 'active', idUser: new Types.ObjectId(idUser)}},
                     {$lookup: {
                     from: 'products',
                         localField: 'idProduct',
@@ -190,7 +191,7 @@ export const resolvers = {
                 ]);
 
                 const numberProductsServices = await Order.aggregate([
-                    {$match: {status: 'active', idUser: new Types.ObjectId(userId)}},
+                    {$match: {status: 'active', idUser: new Types.ObjectId(idUser)}},
                     {$lookup: {
                         from: 'products',
                         localField: 'idProduct',
