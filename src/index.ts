@@ -134,7 +134,7 @@ export const pubsub = new PubSub();
     try {
         const MONGO_DB_URL = process.env.MONGO_DB_URL || "mongodb+srv://hicham5lehouedj:Hicham0675722241h@cluster2.ajmndot.mongodb.net/transformation-era?retryWrites=true&w=majority&appName=Cluster2"
         console.log({MONGO_DB_URL})
-        await mongoose.connect(MONGO_DB_URL);
+        await mongoose.connect("mongodb://root:teLOkMeuvvEyYwsl4X8d7xMbb3ewfPOsg3lEJKunUHyz2ISpWYhGbJzBJ1SjkADt@kk8kokow80k0gw0s8g0ggo48:27017/transformation-era");
         console.log('MongoDB Connection has been established successfully.');
     } catch (error) {
         console.error('Unable to connect to the database:', error);
