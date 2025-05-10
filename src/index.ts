@@ -41,8 +41,8 @@ export const pubsub = new PubSub();
         "http://localhost:3001",
         "http://localhost:3002",
         "http://localhost:3003",
-        "http://localhost:3004",
-        "http://localhost:3005",
+        "https://cp.assar.sa",
+        "https://ds.assar.sa",
         "https://r0kswwwokcscg8kkgow8gc4o.coolify.bi3li.cloud",
         "https://wcwcksg4sgoockosg0sw0ckg.coolify.bi3li.cloud"
     ]
@@ -132,8 +132,7 @@ export const pubsub = new PubSub();
     );
 
     try {
-        const MONGO_DB_URL = process.env.MONGO_DB_URL || "mongodb+srv://hicham5lehouedj:Hicham0675722241h@cluster2.ajmndot.mongodb.net/transformation-era?retryWrites=true&w=majority&appName=Cluster2"
-        console.log({MONGO_DB_URL})
+        const MONGO_DB_URL = process.env.MONGO_DB_URL
         await mongoose.connect(MONGO_DB_URL, {
             dbName: "transformation-era",
         });
