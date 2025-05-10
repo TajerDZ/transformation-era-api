@@ -344,7 +344,7 @@ export const resolvers = {
                 const countInvoice = await Invoice.countDocuments()
                 let invoice = await Invoice.create({
                     ...content,
-                    numberInvoice: countInvoice + 1
+                    numberInvoice: (countInvoice + 1).toString()
                 })
 
                 return invoice
@@ -404,7 +404,7 @@ export const resolvers = {
 
                     const countInvoice = await Invoice.countDocuments()
                     const invoice = await Invoice.create({
-                        numberInvoice: countInvoice + 1,
+                        numberInvoice: (countInvoice + 1).toString(),
                         type: "renew",
                         status: "pending",
                         price: pricePlans?.value,
@@ -472,7 +472,7 @@ export const resolvers = {
 
                     const countInvoice = await Invoice.countDocuments()
                     const invoice = await Invoice.create({
-                        numberInvoice: countInvoice + 1,
+                        numberInvoice: (countInvoice + 1).toString(),
                         type: "upgrade",
                         status: "pending",
                         price: pricePlans?.value,
