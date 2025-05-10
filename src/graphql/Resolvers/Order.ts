@@ -332,8 +332,10 @@ export const resolvers = {
 
         createInvoice: async (parent, {content}, contextValue, info) =>  {
             try {
+                const countInvoice = await Invoice.countDocuments()
                 let invoice = await Invoice.create({
-                    ...content
+                    ...content,
+                    numberInvoice: countInvoice + 1
                 })
 
                 return invoice
@@ -391,8 +393,9 @@ export const resolvers = {
                     const totalDiscount = (pricePlans?.value * pricePlans?.duration) * pricePlans?.discount / 100
                     const totalTva = (pricePlans?.value * pricePlans?.duration) * 0.15
 
+                    const countInvoice = await Invoice.countDocuments()
                     const invoice = await Invoice.create({
-                        // numberInvoice: order.numberInvoice,
+                        numberInvoice: countInvoice + 1,
                         type: "renew",
                         status: "pending",
                         price: pricePlans?.value,
@@ -457,8 +460,9 @@ export const resolvers = {
                     const totalDiscount = (pricePlans?.value * pricePlans?.duration) * pricePlans?.discount / 100
                     const totalTva = (pricePlans?.value * pricePlans?.duration) * 0.15
 
+                    const countInvoice = await Invoice.countDocuments()
                     const invoice = await Invoice.create({
-                        // numberInvoice: order.numberInvoice,
+                        numberInvoice: countInvoice + 1,
                         type: "upgrade",
                         status: "pending",
                         price: pricePlans?.value,

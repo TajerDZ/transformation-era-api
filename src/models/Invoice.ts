@@ -4,7 +4,7 @@ import {SoftDeleteDocument} from "mongoose-delete";
 import {Types} from "mongoose";
 
 export interface InvoiceI extends SoftDeleteDocument {
-    // numberInvoice: string
+    numberInvoice: number
     type: string
     status: string
     price: number
@@ -19,7 +19,7 @@ export interface InvoiceI extends SoftDeleteDocument {
 }
 
 export const InvoiceSchema = new Schema<InvoiceI>({
-    // numberInvoice: { type: String },
+    numberInvoice: { type: Number },
     type: { type: String },
     status: { type: String },
     price: { type: Number },

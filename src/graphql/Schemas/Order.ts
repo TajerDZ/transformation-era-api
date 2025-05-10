@@ -84,7 +84,8 @@ export const typeDefs = `#graphql
     }
 
     type Invoice {
-#        numberInvoice: String
+        id:         ID
+        numberInvoice: Int
         type: String
         price: Float
         duration:  Int
@@ -97,6 +98,9 @@ export const typeDefs = `#graphql
 
         order: Order
         user: User
+        
+        createdAt:  Date
+        updatedAt:  Date
     }
     
     input contentOrder {
@@ -125,7 +129,7 @@ export const typeDefs = `#graphql
     }
 
     input contentInvoice {
-#        numberInvoice: String
+        numberInvoice: Int
         type: String
         price: Float
         duration:  Int
