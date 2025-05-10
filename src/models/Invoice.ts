@@ -15,6 +15,7 @@ export interface InvoiceI extends SoftDeleteDocument {
     tva: number
     dueDate: Date
     idOrder: Types.ObjectId
+    idProduct: Types.ObjectId
     idUser: Types.ObjectId
 }
 
@@ -30,6 +31,7 @@ export const InvoiceSchema = new Schema<InvoiceI>({
     tva: { type: Number },
     dueDate: { type: Date },
     idOrder: { type: Schema.Types.ObjectId, ref: 'Order' },
+    idProduct: { type: Schema.Types.ObjectId, ref: 'Product' },
     idUser: { type: Schema.Types.ObjectId, ref: 'User' }
 }, {
     timestamps: true

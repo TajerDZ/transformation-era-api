@@ -267,6 +267,15 @@ export const resolvers = {
                 throw new GraphQLError(error)
             }
         },
+        product: async ({idProduct}, {id}, contextValue, info) =>  {
+            try {
+                const product = await Product.findById(idProduct);
+
+                return product
+            } catch (error) {
+                throw new GraphQLError(error)
+            }
+        },
     },
 
     Mutation: {
@@ -408,6 +417,7 @@ export const resolvers = {
 
                         dueDate: dueDate,
                         idOrder: order._id,
+                        idProduct: order.idProduct,
                         idUser: order.idUser
                     })
 
@@ -475,6 +485,7 @@ export const resolvers = {
 
                         dueDate: dueDate,
                         idOrder: order._id,
+                        idProduct: order.idProduct,
                         idUser: order.idUser
                     })
 

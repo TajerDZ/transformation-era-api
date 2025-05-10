@@ -97,6 +97,7 @@ export const typeDefs = `#graphql
         status: String
 
         order: Order
+        product: Product
         user: User
         
         createdAt:  Date
@@ -141,6 +142,7 @@ export const typeDefs = `#graphql
         status: String
     
         idOrder: ID
+        idProduct: ID
         idUser: ID
     }
 `
