@@ -390,9 +390,12 @@ export const resolvers = {
             try {
                 const order = await Order.findById(id);
 
+                console.log({order})
                 const lastTimeLine = order.timeLine[order.timeLine.length - 1]
                 let result = null
 
+                console.log({timeLine: order.timeLine})
+                console.log({lastTimeLine})
                 console.log(status)
                 if(status == "accepted") {
                     result = await Order.findOneAndUpdate({
