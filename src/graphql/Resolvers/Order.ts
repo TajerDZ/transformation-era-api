@@ -399,7 +399,7 @@ export const resolvers = {
                 console.log(status)
                 if(status == "accepted") {
                     result = await Order.findOneAndUpdate({
-                        id,
+                        _id: order._id,
                         //@ts-ignore
                         "timeLine._id": lastTimeLine?._id
                     }, {
@@ -422,7 +422,7 @@ export const resolvers = {
                 }
                 if(status == "rejected") {
                     result = await Order.findOneAndUpdate({
-                        id,
+                        _id: order._id,
                         //@ts-ignore
                         "timeLine._id": lastTimeLine?._id
                     }, {
