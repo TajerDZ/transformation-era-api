@@ -209,20 +209,20 @@ export const resolvers = {
     },
 
     TimeLineOrder: {
-        oldProduct: async ({oldIdProduct}, {id}, contextValue, info) =>  {
+        product: async ({idProduct}, {id}, contextValue, info) =>  {
             try {
-                const product = await Product.findById(oldIdProduct);
+                const product = await Product.findById(idProduct);
 
                 return product
             } catch (error) {
                 throw new GraphQLError(error)
             }
         },
-        oldPlan: async ({oldIdProduct, oldIdPlan}, {id}, contextValue, info) =>  {
+        plan: async ({idProduct, idPlan}, {id}, contextValue, info) =>  {
             try {
                 const product = await Product.findOne({
-                    _id: oldIdProduct,
-                    plans: {$elemMatch: {_id: oldIdPlan}}
+                    _id: idProduct,
+                    plans: {$elemMatch: {_id: idPlan}}
                 }, {"plans.$": 1});
 
                 return product?.plans?.[0] || null
@@ -230,16 +230,16 @@ export const resolvers = {
                 throw new GraphQLError(error)
             }
         },
-        oldPrice: async ({oldIdProduct, oldIdPlan, oldIdPrice}, {id}, contextValue, info) =>  {
+        pricePlan: async ({idProduct, idPlan, idPrice}, {id}, contextValue, info) =>  {
             try {
                 const product = await Product.findOne({
-                    _id: oldIdProduct,
-                    plans: {$elemMatch: {_id: oldIdPlan}}
+                    _id: idProduct,
+                    plans: {$elemMatch: {_id: idPlan}}
                 }, {"plans.$": 1});
                 const plan = product?.plans?.[0]
 
                 //@ts-ignore
-                const pricePlans = plan?.prices?.find(price => price?._id?.toString() === oldIdPrice?.toString())
+                const pricePlans = plan?.prices?.find(price => price?._id?.toString() === idPrice?.toString())
 
                 return pricePlans || null
             } catch (error) {
@@ -301,16 +301,13 @@ export const resolvers = {
                 console.log({product})
 
                 const plan = product?.plans?.[0]
-                console.log({plan})
                 //@ts-ignore
                 const pricePlans = plan?.prices?.find(price => price?._id?.toString() === content.idPrice)
 
-                console.log({pricePlans})
                 const totalPrice = pricePlans?.value * pricePlans?.duration
                 const totalDiscount = (pricePlans?.value * pricePlans?.duration) * pricePlans?.discount / 100
                 const totalTva = (pricePlans?.value * pricePlans?.duration) * 0.15
 
-                console.log({totalPrice, totalDiscount, totalTva})
                 let order = await Order.create({
                     ...content,
                     section: product.type,
@@ -319,9 +316,19 @@ export const resolvers = {
                     status: 'pending',
                     idUser: user._id,
                     timeLine: [{
-                        type: "new",
+                        type: "upgrade",
                         createdAt: new Date(),
-                        status: "pending"
+                        status: "pending",
+
+                        idProduct: product._id,
+                        //@ts-ignore
+                        idPlan: plan?._id,
+                        //@ts-ignore
+                        idPrice: pricePlans?._id,
+                        //@ts-ignore
+                        renewalDate: dueDate,
+                        price: totalPrice,
+                        duration: pricePlans?.duration
                     }]
                 })
 
@@ -367,6 +374,53 @@ export const resolvers = {
                 return {
                     data: result?.value,
                     status: result?.ok === 1
+                }
+            } catch (error) {
+                throw new GraphQLError(error)
+            }
+        },
+
+        changeStatusOrder: async (parent, {id, status}, contextValue, info) =>  {
+            try {
+                const order = await Order.findById(id);
+
+                const lastTimeLine = order.timeLine[order.timeLine.length - 1]
+                let result = null
+
+                if(status == "accepted") {
+                    result = await Order.findOneAndUpdate({
+                        id,
+                        //@ts-ignore
+                        "timeLine._id": lastTimeLine?._id
+                    }, {
+                        updated: false,
+                        status: "paid",
+                        idPlan: lastTimeLine?.idPlan,
+                        idPrice: lastTimeLine?.idPrice,
+                        price: lastTimeLine?.price,
+                        duration: lastTimeLine?.duration,
+                        renewalDate: lastTimeLine?.renewalDate,
+                        $set: {
+                            "timeLine.$.status": status
+                        },
+                    }, {new: true});
+                }
+                if(status == "rejected") {
+                    result = await Order.findOneAndUpdate({
+                        id,
+                        //@ts-ignore
+                        "timeLine._id": lastTimeLine?._id
+                    }, {
+                        updated: false,
+                        $set: {
+                            "timeLine.$.status": status
+                        },
+                    }, {new: true});
+                }
+
+                return {
+                    data: result,
+                    status: !!result
                 }
             } catch (error) {
                 throw new GraphQLError(error)
@@ -481,19 +535,25 @@ export const resolvers = {
 
                         dueDate: dueDate,
                         idOrder: order._id,
-                        idProduct: order.idProduct,
+                        idProduct: product._id,
                         idUser: order.idUser
                     })
 
                     const {ok, value} = await Order.findByIdAndUpdate(idOrder, {
-                        idPrice: new Types.ObjectId(idPrice),
-                        renewalDate: dueDate,
-                        price: totalPrice,
+                        updated: true,
                         $push: {
                             timeLine: {
                                 type: "renew",
                                 createdAt: new Date(),
-                                status: "pending"
+                                status: "pending",
+
+                                idProduct: product._id,
+                                //@ts-ignore
+                                idPlan: plan._id,
+                                idPrice: idPrice,
+                                renewalDate: dueDate,
+                                price: totalPrice,
+                                duration: pricePlans?.duration,
                             }
                         }
                     }, {includeResultMetadata: true, new: true});
@@ -552,18 +612,20 @@ export const resolvers = {
                     })
 
                     const {ok, value} = await Order.findByIdAndUpdate(idOrder, {
-                        idPrice: new Types.ObjectId(idPrice),
-                        idPlan: new Types.ObjectId(idPlan),
-                        renewalDate: dueDate,
-                        price: totalPrice,
+                        updated: true,
                         $push: {
                             timeLine: {
                                 type: "upgrade",
                                 createdAt: new Date(),
                                 status: "pending",
-                                oldIdProduct: order.idProduct,
-                                oldIdPlan: order.idPlan,
-                                oldIdPrice: order.idPrice,
+
+                                idProduct: product._id,
+                                //@ts-ignore
+                                idPlan: plan._id,
+                                idPrice: idPrice,
+                                renewalDate: dueDate,
+                                price: totalPrice,
+                                duration: pricePlans?.duration
                             }
                         }
                     }, {includeResultMetadata: true, new: true});

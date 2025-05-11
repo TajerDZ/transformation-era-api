@@ -12,19 +12,23 @@ export interface OrderI extends SoftDeleteDocument {
     idPlan: any
     idPrice: any
     price: number
-    duration: string
+    duration: number
     renewalDate: Date
     status: string
     domainName: string
+
+    updated: boolean
 
     timeLine: {
         type: string
         createdAt: Date
         status: string
-
-        oldIdProduct: any
-        oldIdPlan: any
-        oldIdPrice: any
+        idProduct: any
+        idPlan: any
+        idPrice: any
+        price: number
+        duration: number
+        renewalDate: Date
     }[]
 }
 
@@ -37,19 +41,21 @@ export const OrderSchema = new Schema<OrderI>({
     idPlan: { type: Types.ObjectId },
     idPrice: { type: Types.ObjectId },
     price: { type: Number },
-    duration: { type: String },
+    duration: { type: Number },
     renewalDate: { type: Date },
     status: { type: String },
     domainName: { type: String },
-
+    updated: { type: Boolean, default: false },
     timeLine: [{
         type: { type: String },
         createdAt: { type: Date },
         status: { type: String },
-
-        oldIdProduct: { type: Types.ObjectId, ref: 'Product' },
-        oldIdPlan: { type: Types.ObjectId },
-        oldIdPrice: { type: Types.ObjectId }
+        idProduct: { type: Types.ObjectId, ref: 'Product' },
+        price: { type: Number },
+        duration: { type: Number },
+        idPlan: { type: Types.ObjectId },
+        idPrice: { type: Types.ObjectId },
+        renewalDate: { type: Date }
     }]
 }, {
     timestamps: true

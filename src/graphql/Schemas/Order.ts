@@ -14,6 +14,7 @@ export const typeDefs = `#graphql
         createOrder(content: contentOrder!): Order! @auth #@scope(requires: [order])
         createOrderClient(content: contentOrderClient!): Order! @auth #@scope(requires: [order])
         updateOrder(id: ID!, content: contentOrder!): StatusUpdateOrder @auth #@scope(requires: [order])
+        changeStatusOrder(id: ID!, status: String): StatusUpdateOrder @auth #@scope(requires: [order])
         deleteOrder (id: ID!): StatusDelete @auth #@scope(requires: [order])
         deleteMultiOrder (id: [ID!]!): StatusDelete @auth #@scope(requires: [order])
         
@@ -82,9 +83,13 @@ export const typeDefs = `#graphql
         createdAt: Date
         status: String
 
-        oldProduct: Product
-        oldPlan: PlansProduct
-        oldPrice: PricesPlansProduct
+        price: Float
+        duration: Int
+        renewalDate: Date
+        
+        product: Product
+        plan: PlansProduct
+        pricePlan: PricesPlansProduct
     }
 
     type Invoice {
@@ -134,10 +139,13 @@ export const typeDefs = `#graphql
         type: String
         createdAt: Date
         status: String
-    
-        oldIdProduct: ID
-        oldIdPlan: ID
-        oldIdPrice: ID
+        
+        idProduct: ID
+        price: Float
+        duration: Int
+        idPlan: ID
+        idPrice: ID
+        renewalDate: ID
     }
 
     input contentInvoice {
