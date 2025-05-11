@@ -291,7 +291,7 @@ export const resolvers = {
             }
         },
 
-        createOrderClient: async (parent, {content}, [user], info) =>  {
+        createOrderClient: async (parent, {content}, {user}, info) =>  {
             try {
                 console.log("create order")
                 const product = await Product.findOne({
