@@ -359,6 +359,7 @@ export const resolvers = {
                     idUser: user._id,
                     type: "info"
                 })
+                console.log({createNotifications})
                 await pubsub.publish('CREATE_NOTIFICATIONS', {createNotifications});
                 await pubsub.publish('ORDER', {order: {order, type: "create"}});
 
@@ -581,6 +582,7 @@ export const resolvers = {
                         idUser: order.idUser,
                         type: "info"
                     })
+                    console.log({createNotifications})
                     await pubsub.publish('CREATE_NOTIFICATIONS', {createNotifications});
                     await pubsub.publish('ORDER', {order: {order, type: "renew"}});
                     return {
@@ -659,6 +661,7 @@ export const resolvers = {
                         idUser: order.idUser,
                         type: "info"
                     })
+                    console.log({createNotifications})
                     await pubsub.publish('CREATE_NOTIFICATIONS', {createNotifications});
                     await pubsub.publish('ORDER', {order: {order, type: "upgrade"}});
                     return {
