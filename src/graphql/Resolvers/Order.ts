@@ -313,6 +313,7 @@ export const resolvers = {
                 console.log({totalPrice, totalDiscount, totalTva})
                 let order = await Order.create({
                     ...content,
+                    section: product.type,
                     price: totalPrice,
                     duration: pricePlans?.duration,
                     status: 'pending',
