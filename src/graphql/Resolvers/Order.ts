@@ -297,7 +297,7 @@ export const resolvers = {
                 const product = await Product.findOne({
                     _id: content.idProduct,
                     "plans._id": content.idPlan
-                }, {"plans.$": 1});
+                }, {"plans.$": 1, type: 1});
                 console.log({product})
 
                 const plan = product?.plans?.[0]
