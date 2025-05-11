@@ -325,8 +325,7 @@ export const resolvers = {
                         idPlan: plan?._id,
                         //@ts-ignore
                         idPrice: pricePlans?._id,
-                        //@ts-ignore
-                        renewalDate: dueDate,
+                        renewalDate: content.renewalDate,
                         price: totalPrice,
                         duration: pricePlans?.duration
                     }]
