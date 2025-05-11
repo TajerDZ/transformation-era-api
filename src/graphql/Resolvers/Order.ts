@@ -293,6 +293,7 @@ export const resolvers = {
 
         createOrderClient: async (parent, {content}, [user], info) =>  {
             try {
+                console.log("create order")
                 const product = await Product.findOne({
                     _id: content.idProduct,
                     "plans._id": content.idPlan
