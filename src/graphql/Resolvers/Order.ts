@@ -297,15 +297,19 @@ export const resolvers = {
                     _id: content.idProduct,
                     "plans._id": content.idPlan
                 }, {"plans.$": 1});
+                console.log({product})
 
                 const plan = product?.plans?.[0]
+                console.log({plan})
                 //@ts-ignore
                 const pricePlans = plan?.prices?.find(price => price?._id?.toString() === content.idPrice)
 
+                console.log({pricePlans})
                 const totalPrice = pricePlans?.value * pricePlans?.duration
                 const totalDiscount = (pricePlans?.value * pricePlans?.duration) * pricePlans?.discount / 100
                 const totalTva = (pricePlans?.value * pricePlans?.duration) * 0.15
 
+                console.log({totalPrice, totalDiscount, totalTva})
                 let order = await Order.create({
                     ...content,
                     price: totalPrice,
@@ -319,7 +323,9 @@ export const resolvers = {
                     }]
                 })
 
+                console.log({order})
                 const countInvoice = await Invoice.countDocuments()
+                console.log({countInvoice})
                 const invoice = await Invoice.create({
                     numberInvoice: (countInvoice + 1).toString(),
                     type: "renew",
@@ -337,11 +343,13 @@ export const resolvers = {
                     idProduct: order.idProduct,
                     idUser: order.idUser
                 })
+                console.log({invoice})
 
                 await pubsub.publish('ORDER', {order: {order, type: "create"}});
 
                 return order
             } catch (error) {
+                console.log({error})
                 throw new GraphQLError(error)
             }
         },
