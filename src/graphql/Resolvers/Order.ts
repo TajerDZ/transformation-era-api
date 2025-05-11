@@ -393,6 +393,7 @@ export const resolvers = {
                 const lastTimeLine = order.timeLine[order.timeLine.length - 1]
                 let result = null
 
+                console.log(status)
                 if(status == "accepted") {
                     result = await Order.findOneAndUpdate({
                         id,
@@ -410,6 +411,11 @@ export const resolvers = {
                             "timeLine.$.status": status
                         },
                     }, {new: true});
+                    console.log({result})
+                    return {
+                        data: result,
+                        status: !!result
+                    }
                 }
                 if(status == "rejected") {
                     result = await Order.findOneAndUpdate({
@@ -422,12 +428,13 @@ export const resolvers = {
                             "timeLine.$.status": status
                         },
                     }, {new: true});
+                    console.log({result})
+                    return {
+                        data: result,
+                        status: !!result
+                    }
                 }
 
-                return {
-                    data: result,
-                    status: !!result
-                }
             } catch (error) {
                 throw new GraphQLError(error)
             }
