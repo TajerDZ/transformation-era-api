@@ -68,7 +68,7 @@ export const typeDefs = `#graphql
         renewalDate: Date
         status: String
         domainName: String
-
+        updated: Boolean
         timeLine: [TimeLineOrder]
     
         createdAt:  Date
