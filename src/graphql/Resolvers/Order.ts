@@ -422,12 +422,14 @@ export const resolvers = {
                     }
                 }
                 if(status == "rejected") {
+
                     result = await Order.findOneAndUpdate({
                         _id: order._id,
                         //@ts-ignore
                         "timeLine._id": lastTimeLine?._id
                     }, {
                         updated: false,
+                        status: order.timeLine.length == 1 ? "rejected" : order.status,
                         $set: {
                             "timeLine.$.status": status
                         },
