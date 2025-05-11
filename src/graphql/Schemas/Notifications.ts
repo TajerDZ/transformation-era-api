@@ -22,8 +22,9 @@ export const typeDefs = `#graphql
         id:             ID
         title:          String
         msg:            String
-        icon:           String
         type:           String
+
+        user: User
     
         createdAt:  Date
         updatedAt:  Date
@@ -32,7 +33,6 @@ export const typeDefs = `#graphql
     input contentNotifications {
         title:          String
         msg:            String
-        icon:           String
         type:           String
     }
 `

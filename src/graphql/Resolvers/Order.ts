@@ -1,6 +1,6 @@
 import {GraphQLError} from "graphql";
 import dotenv from 'dotenv';
-import {Invoice, Order, Product, User} from "../../models/index.js";
+import {Invoice, Notifications, Order, Product, User} from "../../models/index.js";
 import {Schema, Types} from "mongoose";
 import {buildFilter} from "../../helpers/index.js";
 import {withFilter} from "graphql-subscriptions";
@@ -353,6 +353,13 @@ export const resolvers = {
                 })
                 console.log({invoice})
 
+                const createNotifications = await Notifications.create({
+                    title: "طلب جديد",
+                    msg: "قام عميل بطلب جديد",
+                    idUser: user._id,
+                    type: "info"
+                })
+                await pubsub.publish('CREATE_NOTIFICATIONS', {createNotifications});
                 await pubsub.publish('ORDER', {order: {order, type: "create"}});
 
                 return order
@@ -558,6 +565,13 @@ export const resolvers = {
                     }, {includeResultMetadata: true, new: true});
 
 
+                    const createNotifications = await Notifications.create({
+                        title: "طلب تجديد",
+                        msg: "قام عميل بطلب تجديد",
+                        idUser: order.idUser,
+                        type: "info"
+                    })
+                    await pubsub.publish('CREATE_NOTIFICATIONS', {createNotifications});
                     await pubsub.publish('ORDER', {order: {order, type: "renew"}});
                     return {
                         data: value,
@@ -629,6 +643,13 @@ export const resolvers = {
                         }
                     }, {includeResultMetadata: true, new: true});
 
+                    const createNotifications = await Notifications.create({
+                        title: "طلب ترقية",
+                        msg: "قام عميل بطلب ترقية",
+                        idUser: order.idUser,
+                        type: "info"
+                    })
+                    await pubsub.publish('CREATE_NOTIFICATIONS', {createNotifications});
                     await pubsub.publish('ORDER', {order: {order, type: "upgrade"}});
                     return {
                         data: value,

@@ -6,17 +6,15 @@ import {Types} from "mongoose";
 export interface NotificationsI extends SoftDeleteDocument {
     title: string
     msg: string
-    icon: string
     type: string
-    details: string
+    idUser: Types.ObjectId
 }
 
 export const NotificationsSchema = new Schema<NotificationsI>({
     title: { type: String },
     msg: { type: String },
-    icon: { type: String },
     type: { type: String },
-    details: { type: String }
+    idUser: { type: Schema.Types.ObjectId, ref: 'User' },
 }, {
     timestamps: true
 });

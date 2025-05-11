@@ -1,6 +1,6 @@
 import {GraphQLError} from "graphql";
 import dotenv from 'dotenv';
-import {Notifications} from "../../models/index.js";
+import {Notifications, User} from "../../models/index.js";
 import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../../index.js";
 
@@ -25,6 +25,18 @@ export const resolvers = {
             }
         },
         
+    },
+
+    Notifications: {
+        user: async ({idUser}, {id}, contextValue, info) =>  {
+            try {
+                const user = await User.findById(idUser);
+
+                return user
+            } catch (error) {
+                throw new GraphQLError(error)
+            }
+        },
     },
 
     Mutation: {
