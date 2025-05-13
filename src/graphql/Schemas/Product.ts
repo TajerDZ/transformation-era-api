@@ -46,6 +46,7 @@ export const typeDefs = `#graphql
     type PlansProduct {
         id:         ID
         name:       String
+        description: String
         details: [DetailsPlansProduct]
         prices: [PricesPlansProduct]
     }

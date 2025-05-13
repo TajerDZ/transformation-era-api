@@ -147,7 +147,6 @@ export const typeDefs = `#graphql
         idPrice: ID
         renewalDate: ID
     }
-
     input contentInvoice {
         numberInvoice: String
         type: String
