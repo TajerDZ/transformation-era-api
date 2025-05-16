@@ -2,7 +2,9 @@ export const typeDefs = `#graphql
     type Query {
         homeStatistics: HomeStatistics @auth
         clientStatistics(idUser: ID): ClientStatistics @auth
-        
+
+        cpanel(idOrder: ID!): Cpanel @auth
+        cpanelUrl(userName: String!): String @auth
     }
 
     type HomeStatistics {
@@ -38,8 +40,6 @@ export const typeDefs = `#graphql
         month:     String
     }
 
-
-
     type ClientStatistics {
         numberProductsServices:     Int
         numberDomains:     Int
@@ -47,4 +47,30 @@ export const typeDefs = `#graphql
         numberInvoices:     Int
     }
     
+    type Cpanel {
+        temporary:  Float
+        is_locked:  Int
+        suspendreason: String
+        diskused:   String
+        domain:     String
+        ip:         String
+        maxpop:     String
+        maxftp:     String
+        max_emailacct_quota: String
+        uid:        String
+        maxsql:     String
+        theme:        String
+        backup:       Int
+        user:         String
+        suspendtime:  Float
+        inodesused:   Float
+        maxlst:       Float
+        email:        Float
+        has_backup:   Int
+        disklimit:    String
+        maxsub:       String
+        suspended:    Int
+        inodeslimit:  String
+        startdate:    String
+    }
 `

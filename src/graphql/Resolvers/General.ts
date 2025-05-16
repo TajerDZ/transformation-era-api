@@ -2,6 +2,7 @@ import {GraphQLError} from "graphql";
 import dotenv from 'dotenv';
 import {Invoice, Order, User} from "../../models/index.js";
 import {Types} from "mongoose";
+import {getAccountDetail, getCpanel} from "../../helpers/index.js";
 
 dotenv.config();
 
@@ -161,6 +162,47 @@ export const resolvers = {
                     numberHostingPlan: numberHostingPlan?.[0]?.totalOrders || 0,
                     numberInvoices
                 }
+            } catch (error) {
+                console.log("basicStatistics", error)
+                throw new GraphQLError(error)
+            }
+        },
+
+        cpanel: async (parent, {idOrder}, {}, info) =>  {
+            try {
+                const order = await Order.findById(idOrder);
+
+                if (order && order !== undefined && order !== null) {
+                    const domain = order.domainName;
+                    const {status, data} = await getAccountDetail(domain)
+
+                    if (status === 200 && data?.data?.acct?.length > 0) {
+                        const acct = data?.data?.acct[0];
+                        return acct
+                    }
+                    return null
+                }
+
+                return null
+            } catch (error) {
+                console.log("basicStatistics", error)
+                throw new GraphQLError(error)
+            }
+        },
+
+        cpanelUrl: async (parent, {userName}, {}, info) =>  {
+            try {
+                if (userName !== undefined && userName !== null && userName !== "") {
+                    const {status, data} = await getCpanel(userName)
+
+                    if (status === 200 && data?.data !== undefined && data?.data !== null) {
+                        const url = data?.data?.url;
+                        return url
+                    }
+                    return null
+                }
+
+                return null
             } catch (error) {
                 console.log("basicStatistics", error)
                 throw new GraphQLError(error)
