@@ -83,12 +83,12 @@ export const resolvers = {
     },
 
     Subscription: {
-        newNotifications: {
+        createNotifications: {
             subscribe: withFilter(
                 () => pubsub.asyncIterableIterator(['CREATE_NOTIFICATIONS']),
                 ({createNotifications}, {}) => {
                     console.log({createNotifications})
-                    return createNotifications
+                    return true;
                 }
             ),
             resolve: ({ createNotifications }) => createNotifications

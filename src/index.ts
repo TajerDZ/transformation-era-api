@@ -26,7 +26,7 @@ import {PubSub} from "graphql-subscriptions";
 import cron from 'node-cron';
 
 import {createReadStream} from "node:fs";
-import {getAccountDetail, getAllAccounts, inviteUserMail} from "./helpers/index.js";
+import {getAccountDetail, getAllAccounts, getCpanel, inviteUserMail} from "./helpers/index.js";
 
 const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
@@ -76,9 +76,9 @@ export const pubsub = new PubSub();
     app.get("/test", async (req, res) => {
         try {
             // const response = await getAllAccounts()
-            const response = await getAccountDetail("awqaftrust.sa")
-
-            console.log(response.data);
+            // const response = await getAccountDetail("awqaftrust.sa")
+            const response = await getCpanel("awqaftrust")
+            // console.log(response.data);
             res.status(200).json(response?.data)
         } catch (e) {
             console.error(e);

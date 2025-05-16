@@ -14,9 +14,9 @@ export const getAllAccounts = async () => {
     }
 };
 
-export const getAccountDetail = async (username: string) => {
+export const getAccountDetail = async (domain: string) => {
     try {
-        return await axios.get(`https://s3474.fra1.stableserver.net:2087/json-api/accountsummary?api.version=1&domain=${username}`, {
+        return await axios.get(`https://s3474.fra1.stableserver.net:2087/json-api/accountsummary?api.version=1&domain=${domain}`, {
             headers: {
                 Authorization: `whm maarifte:TPEVASUTMUI9I0I93JJCYMR9YNPEL65A`
             },
@@ -27,9 +27,9 @@ export const getAccountDetail = async (username: string) => {
     }
 };
 
-export const getِCpanel = async (username: string) => {
+export const getCpanel = async (username: string) => {
     try {
-        return await axios.get(`https://s3474.fra1.stableserver.net:2087/json-api/accountsummary?api.version=1&domain=${username}`, {
+        return await axios.get(`https://s3474.fra1.stableserver.net:2087/json-api/create_user_session?api.version=1&user=${username}&service=cpanel`, {
             headers: {
                 Authorization: `whm maarifte:TPEVASUTMUI9I0I93JJCYMR9YNPEL65A`
             },

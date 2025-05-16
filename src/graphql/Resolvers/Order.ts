@@ -357,8 +357,9 @@ export const resolvers = {
                     duration: pricePlans?.duration,
                     status: 'pending',
                     idUser: user._id,
+                    updated: true,
                     timeLine: [{
-                        type: "upgrade",
+                        type: "new",
                         createdAt: new Date(),
                         status: "pending",
 
@@ -725,7 +726,7 @@ export const resolvers = {
         order: {
             subscribe: withFilter(
                 () => pubsub.asyncIterableIterator(['ORDER']),
-                ({order}, {}) => order
+                ({order}, {}) => true
             )
         }
     }
