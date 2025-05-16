@@ -18,7 +18,7 @@ export const resolvers = {
                 ])
 
                 const topProducts = await Order.aggregate([
-                    {$match: {status: "active"}},
+                    {$match: {status: "paid"}},
                     {$group: {
                         _id: '$idProduct',
                         total: { $sum: 1 }
