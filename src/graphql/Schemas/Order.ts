@@ -8,6 +8,7 @@ export const typeDefs = `#graphql
 
         invoice(id: ID): Invoice @auth #@scope(requires: [order])
         allInvoice(filter: [Filter], pagination: Pagination): InvoiceWithTotal @auth #@scope(requires: [order])
+        allInvoiceClient(idUser: ID, filter: [Filter], pagination: Pagination): InvoiceWithTotal @auth #@scope(requires: [order])
     }
     
     type Mutation {

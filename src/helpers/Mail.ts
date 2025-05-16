@@ -3,12 +3,12 @@ import 'dotenv/config'
 
 
 const transporter = nodemailer.createTransport({
-    host: "mail.sendibad.shop",
+    host: "mail.assar.sa",
     port: 465,
     secure: true, // Use `true` for port 465, `false` for all other ports
     auth: {
-        user: "noreply@sendibad.shop",
-        pass: "+00B*sG-3@5x\\Xu",
+        user: "noreply@assar.sa",
+        pass: "Assar@@1982",
     },
     tls: {
         rejectUnauthorized: false,
@@ -322,7 +322,7 @@ export const verificationMail = async (mail: {to: string; token: string;}) => {
     try {
 
         const info = await transporter.sendMail({
-            from: '"Sendibad" <noreply@sendibad.shop>',
+            from: '"Contact Assar" <noreply@assar.sa>',
             to: mail.to,
             subject: "Verify email",
             html: bodyVerificationMail(mail.token),
@@ -646,7 +646,7 @@ const bodyForgetPassword = (token: string) => {
 export const forgetPasswordMail = async (mail: {to: string; token: string;}) => {
     try {
         const info = await transporter.sendMail({
-            from: '"Sendibad" <noreply@sendibad.shop>',
+            from: '"Contact Assar" <noreply@assar.sa>',
             to: mail.to,
             subject: "Recover password",
             html: bodyForgetPassword(mail.token),
@@ -1052,10 +1052,10 @@ const bodyInviteUser = (email: string, name: string) => {
 export const inviteUserMail = async (mail: {to: string; name: string;}) => {
     try {
         const info = await transporter.sendMail({
-            from: '"Sendibad" <noreply@sendibad.shop>',
+            from: '"Contact Assar" <noreply@assar.sa>',
             to: mail.to,
             subject: "Invite to company",
-            html: bodyInviteUser(mail.to, mail.name)
+            html: "<p>test mail</p>"
         });
 
         console.log("Message sent: %s", info.messageId);

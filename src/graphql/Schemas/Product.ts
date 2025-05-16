@@ -79,6 +79,7 @@ export const typeDefs = `#graphql
 
     input contentPlansProduct {
         name:       String
+        description:     String
         details: [contentDetailsPlansProduct]
         prices: [contentPricesPlansProduct]
     }

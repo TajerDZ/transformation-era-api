@@ -26,6 +26,7 @@ import {PubSub} from "graphql-subscriptions";
 import cron from 'node-cron';
 
 import {createReadStream} from "node:fs";
+import {getAccountDetail, getAllAccounts, inviteUserMail} from "./helpers/index.js";
 
 const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
@@ -74,10 +75,27 @@ export const pubsub = new PubSub();
 
     app.get("/test", async (req, res) => {
         try {
+            // const response = await getAllAccounts()
+            const response = await getAccountDetail("awqaftrust.sa")
+
+            console.log(response.data);
+            res.status(200).json(response?.data)
+        } catch (e) {
+            console.error(e);
+        }
+    })
+
+    app.get("/test-mail", async (req, res) => {
+        try {
             // const data = await feesInYalidine("hYxqAins8rH5zGXv7WLRaNoQsjcHxKp1VEpDSevdcIVtUB4ZNwbLJwuykYPWf5K4", "09712476872108341641", "39")
             // const data = await getAllFolder({idGoogleSheets: "67ed2a5578de156e1b29c476"})
 
-            res.status(200).send()//.json(data)
+            const data = await inviteUserMail({
+                name: "contact",
+                to: "contact@assar.sa",
+            })
+
+            res.status(200).json(data)
         } catch (e) {
             console.error(e);
         }

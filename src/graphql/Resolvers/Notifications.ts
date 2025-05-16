@@ -87,6 +87,7 @@ export const resolvers = {
             subscribe: withFilter(
                 () => pubsub.asyncIterableIterator(['CREATE_NOTIFICATIONS']),
                 ({createNotifications}, {}) => {
+                    console.log({createNotifications})
                     return createNotifications
                 }
             ),
