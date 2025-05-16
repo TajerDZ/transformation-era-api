@@ -40,15 +40,7 @@ export const resolvers = {
                 ]);
 
                 const hostingPlan = await Order.aggregate([
-                    {$match: {status: 'active'}},
-                    {$lookup: {
-                        from: 'products',
-                        localField: 'idProduct',
-                        foreignField: '_id',
-                        as: 'product'
-                    }},
-                    {$unwind: '$product'},
-                    {$match: {'product.type': 'hosting_plan'}},
+                    {$match: {status: 'paid', section: 'hosting_plan'}},
                     {$group: {
                         _id: {
                             year: { $year: '$createdAt' },
@@ -75,15 +67,7 @@ export const resolvers = {
                 ]);
 
                 const domains = await Order.aggregate([
-                    {$match: {status: 'active'}},
-                    {$lookup: {
-                        from: 'products',
-                        localField: 'idProduct',
-                        foreignField: '_id',
-                        as: 'product'
-                    }},
-                    {$unwind: '$product'},
-                    {$match: {'product.type': 'domains'}},
+                    {$match: {status: 'paid', section: 'domains'}},
                     {$group: {
                         _id: {
                             year: { $year: '$createdAt' },
@@ -110,15 +94,7 @@ export const resolvers = {
                 ]);
 
                 const productsServices = await Order.aggregate([
-                    {$match: {status: 'active'}},
-                    {$lookup: {
-                        from: 'products',
-                        localField: 'idProduct',
-                        foreignField: '_id',
-                        as: 'product'
-                    }},
-                    {$unwind: '$product'},
-                    {$match: {'product.type': 'products_services'}},
+                    {$match: {status: 'paid', section: 'products_services'}},
                     {$group: {
                         _id: {
                             year: { $year: '$createdAt' },
@@ -165,41 +141,17 @@ export const resolvers = {
                 const numberInvoices = await Invoice.countDocuments({status: "paid", idUser})
 
                 const numberHostingPlan = await Order.aggregate([
-                    {$match: {status: 'active', idUser: new Types.ObjectId(idUser)}},
-                    {$lookup: {
-                            from: 'products',
-                            localField: 'idProduct',
-                            foreignField: '_id',
-                            as: 'product'
-                        }},
-                    {$unwind: '$product'},
-                    {$match: {'product.type': 'hosting_plan'}},
+                    {$match: {status: 'paid', section: 'hosting_plan', idUser: new Types.ObjectId(idUser)}},
                     {$count: 'totalOrders'},
                 ]);
 
                 const numberDomains = await Order.aggregate([
-                    {$match: {status: 'active', idUser: new Types.ObjectId(idUser)}},
-                    {$lookup: {
-                    from: 'products',
-                        localField: 'idProduct',
-                        foreignField: '_id',
-                        as: 'product'
-                    }},
-                    {$unwind: '$product'},
-                    {$match: {'product.type': 'domains'}},
+                    {$match: {status: 'paid', section: 'domains', idUser: new Types.ObjectId(idUser)}},
                     {$count: 'totalOrders'},
                 ]);
 
                 const numberProductsServices = await Order.aggregate([
-                    {$match: {status: 'active', idUser: new Types.ObjectId(idUser)}},
-                    {$lookup: {
-                        from: 'products',
-                        localField: 'idProduct',
-                        foreignField: '_id',
-                        as: 'product'
-                    }},
-                    {$unwind: '$product'},
-                    {$match: {'product.type': 'products_services'}},
+                    {$match: {status: 'paid', section: 'products_services', idUser: new Types.ObjectId(idUser)}},
                     {$count: 'totalOrders'}
                 ]);
 
@@ -214,8 +166,6 @@ export const resolvers = {
                 throw new GraphQLError(error)
             }
         },
-
-
     },
 
 }
