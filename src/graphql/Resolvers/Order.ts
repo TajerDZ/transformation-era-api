@@ -343,11 +343,12 @@ export const resolvers = {
                 //@ts-ignore
                 const pricePlans = plan?.prices?.find(price => price?._id?.toString() === content.idPrice)
 
-                const totalDiscount = pricePlans?.value * pricePlans?.discount / 100
+                const totalDiscount = (pricePlans?.value * pricePlans?.discount) / 100
                 const totalTva = pricePlans?.value * 0.15
 
                 const totalPrice = pricePlans?.value - totalDiscount + totalTva
 
+                console.log(pricePlans?.value, {totalDiscount, totalTva, totalPrice})
                 let order = await Order.create({
                     ...content,
                     section: product.type,
@@ -381,8 +382,8 @@ export const resolvers = {
 
                     duration: pricePlans?.duration,
                     totalDiscount: totalDiscount,
-                    totalPrice: totalPrice - totalDiscount + totalTva,
-                    subTotalPrice: totalPrice,
+                    totalPrice: totalPrice,
+                    subTotalPrice: pricePlans?.value,
                     tva: totalTva,
 
                     dueDate: content.renewalDate,

@@ -66,7 +66,7 @@ export const typeDefs = `#graphql
         inodesused:   Float
         maxlst:       String
         email:        String
-        has_backup:   Int
+        has_backup:   Boolean
         disklimit:    String
         maxsub:       String
         suspended:    Int
