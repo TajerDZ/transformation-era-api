@@ -335,23 +335,19 @@ export const resolvers = {
 
         createOrderClient: async (parent, {content}, {user}, info) =>  {
             try {
-                console.log("create order")
                 const product = await Product.findOne({
                     _id: content.idProduct,
                     "plans._id": content.idPlan
                 }, {"plans.$": 1, type: 1});
-                console.log({product})
 
                 const plan = product?.plans?.[0]
                 //@ts-ignore
                 const pricePlans = plan?.prices?.find(price => price?._id?.toString() === content.idPrice)
 
-                console.log({pricePlans})
-                const totalPrice = pricePlans?.value * pricePlans?.duration
-                const totalDiscount = (pricePlans?.value * pricePlans?.duration) * pricePlans?.discount / 100
-                const totalTva = (pricePlans?.value * pricePlans?.duration) * 0.15
+                const totalDiscount = pricePlans?.value * pricePlans?.discount / 100
+                const totalTva = pricePlans?.value * 0.15
 
-                console.log({totalPrice, totalDiscount, totalTva})
+                const totalPrice = pricePlans?.value - totalDiscount + totalTva
 
                 let order = await Order.create({
                     ...content,
@@ -377,9 +373,7 @@ export const resolvers = {
                     }]
                 })
 
-                console.log({order})
                 const countInvoice = await Invoice.countDocuments()
-                console.log({countInvoice})
                 const invoice = await Invoice.create({
                     numberInvoice: (countInvoice + 1).toString(),
                     type: "renew",
@@ -397,7 +391,6 @@ export const resolvers = {
                     idProduct: order.idProduct,
                     idUser: order.idUser
                 })
-                console.log({invoice})
 
                 const createNotifications = await Notifications.create({
                     title: "طلب جديد",
@@ -405,7 +398,6 @@ export const resolvers = {
                     idUser: user._id,
                     type: "info"
                 })
-                console.log({createNotifications})
                 await pubsub.publish('CREATE_NOTIFICATIONS', {createNotifications});
                 await pubsub.publish('ORDER', {order: {order, type: "create"}});
 
@@ -581,9 +573,10 @@ export const resolvers = {
                     //@ts-ignore
                     const pricePlans = plan?.prices?.find(price => price?._id?.toString() === idPrice)
 
-                    const totalPrice = pricePlans?.value * pricePlans?.duration
-                    const totalDiscount = (pricePlans?.value * pricePlans?.duration) * pricePlans?.discount / 100
-                    const totalTva = (pricePlans?.value * pricePlans?.duration) * 0.15
+                    const totalDiscount = pricePlans?.value * pricePlans?.discount / 100
+                    const totalTva = pricePlans?.value * 0.15
+
+                    const totalPrice = pricePlans?.value - totalDiscount + totalTva
 
                     const countInvoice = await Invoice.countDocuments()
                     const invoice = await Invoice.create({
@@ -630,7 +623,6 @@ export const resolvers = {
                         idUser: order.idUser,
                         type: "info"
                     })
-                    console.log({createNotifications})
                     await pubsub.publish('CREATE_NOTIFICATIONS', {createNotifications});
                     await pubsub.publish('ORDER', {order: {order, type: "renew"}});
                     return {
@@ -661,9 +653,10 @@ export const resolvers = {
                     //@ts-ignore
                     const pricePlans = plan?.prices?.find(price => price?._id?.toString() === idPrice)
 
-                    const totalPrice = pricePlans?.value * pricePlans?.duration
-                    const totalDiscount = (pricePlans?.value * pricePlans?.duration) * pricePlans?.discount / 100
-                    const totalTva = (pricePlans?.value * pricePlans?.duration) * 0.15
+                    const totalDiscount = pricePlans?.value * pricePlans?.discount / 100
+                    const totalTva = pricePlans?.value * 0.15
+
+                    const totalPrice = pricePlans?.value - totalDiscount + totalTva
 
                     const countInvoice = await Invoice.countDocuments()
                     const invoice = await Invoice.create({
@@ -709,7 +702,7 @@ export const resolvers = {
                         idUser: order.idUser,
                         type: "info"
                     })
-                    console.log({createNotifications})
+
                     await pubsub.publish('CREATE_NOTIFICATIONS', {createNotifications});
                     await pubsub.publish('ORDER', {order: {order, type: "upgrade"}});
                     return {
