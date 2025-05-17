@@ -44,7 +44,7 @@ export const OrderSchema = new Schema<OrderI>({
     duration: { type: Number },
     renewalDate: { type: Date },
     status: { type: String },
-    domainName: { type: String },
+    domainName: { type: String, unique: true },
     updated: { type: Boolean, default: false },
     timeLine: [{
         type: { type: String },
