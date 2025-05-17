@@ -185,7 +185,7 @@ export const resolvers = {
 
                 return null
             } catch (error) {
-                console.log("basicStatistics", error)
+                console.log("cpanel", error)
                 throw new GraphQLError(error)
             }
         },
@@ -204,7 +204,7 @@ export const resolvers = {
 
                 return null
             } catch (error) {
-                console.log("basicStatistics", error)
+                console.log("cpanelUrl", error)
                 throw new GraphQLError(error)
             }
         },

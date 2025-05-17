@@ -26,7 +26,13 @@ export const getAccountDetail = async (domain: string) => {
             httpsAgent: new Agent({ rejectUnauthorized: false }) // فقط عند وجود مشاكل شهادة SSL
         });
     } catch (err) {
-        console.error('Error fetching accounts:', err);
+        if (axios.isAxiosError(err) && err.response) {
+            console.log(err.response.data);
+            return {status: 400, data: null}
+        } else {
+            console.log(err);
+            return {status: 400, data: null}
+        }
     }
 };
 
@@ -39,6 +45,12 @@ export const getCpanel = async (username: string) => {
             httpsAgent: new Agent({ rejectUnauthorized: false }) // فقط عند وجود مشاكل شهادة SSL
         });
     } catch (err) {
-        console.error('Error fetching accounts:', err);
+        if (axios.isAxiosError(err) && err.response) {
+            console.log(err.response.data);
+            return {status: 400, data: null}
+        } else {
+            console.log(err);
+            return {status: 400, data: null}
+        }
     }
 };
