@@ -1048,7 +1048,7 @@ const bodyInviteUser = (name: string) => {
 </html>
     `
 }
-export const inviteUserMail = async (mail: {to: string; name: string;}) => {
+export const welcomeUserMail = async (mail: {to: string; name: string;}) => {
     try {
         const info = await transporter.sendMail({
             from: '"Contact Assar" <noreply@assar.sa>',

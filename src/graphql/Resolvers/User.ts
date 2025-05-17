@@ -1,7 +1,19 @@
 import {GraphQLError} from "graphql";
 import 'dotenv/config'
 
-import {alreadyExistUser, AuthToken, buildFilter, comparePassword, forgetPasswordMail, hashPassword, inviteUserMail, isExistUser, sameUserAgent, verificationMail, VerifyToken} from '../../helpers/index.js';
+import {
+    alreadyExistUser,
+    AuthToken,
+    buildFilter,
+    comparePassword,
+    forgetPasswordMail,
+    hashPassword,
+    isExistUser,
+    sameUserAgent,
+    verificationMail,
+    VerifyToken,
+    welcomeUserMail
+} from '../../helpers/index.js';
 
 import {Order, PermissionGroup, User} from './../../models/index.js';
 import {Types} from "mongoose";
@@ -235,6 +247,11 @@ export const resolvers = {
                     // codeVerify: token
                 })
 
+                await welcomeUserMail({
+                    name: content?.firstname,
+                    to: content?.email,
+                })
+
                 // await verificationMail ({to: content.email, token: token});
 
                 return user
@@ -266,6 +283,11 @@ export const resolvers = {
                     activation: true,
                     emailVerify: true,
                     // codeVerify: token
+                })
+
+                await welcomeUserMail({
+                    name: content?.firstname,
+                    to: content?.email,
                 })
 
                 // await verificationMail ({to: content.email, token: token});
