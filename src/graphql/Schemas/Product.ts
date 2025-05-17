@@ -59,6 +59,7 @@ export const typeDefs = `#graphql
 
     type PricesPlansProduct {
         id:         ID
+        link: String
         key: String
         value: Float
         discount: Float
@@ -91,6 +92,7 @@ export const typeDefs = `#graphql
 
     input contentPricesPlansProduct {
         _id:         ID
+        link: String
         key: String
         value: Float
         discount: Float
