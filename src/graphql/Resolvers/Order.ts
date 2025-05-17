@@ -322,10 +322,10 @@ export const resolvers = {
     Mutation: {
         createOrder: async (parent, {content}, contextValue, info) =>  {
             try {
-                let orderOne = await Order.findOne({domainName: content.domain})
-                if (orderOne) {
-                    return new GraphQLError("domain already exist")
-                }
+                // let orderOne = await Order.findOne({domainName: content.domain})
+                // if (orderOne) {
+                //     return new GraphQLError("domain already exist")
+                // }
 
                 let order = await Order.create({
                     ...content
@@ -339,10 +339,10 @@ export const resolvers = {
 
         createOrderClient: async (parent, {content}, {user}, info) =>  {
             try {
-                let orderOne = await Order.findOne({domainName: content.domain})
-                if (orderOne) {
-                    return new GraphQLError("domain already exist")
-                }
+                // let orderOne = await Order.findOne({domainName: content.domain})
+                // if (orderOne) {
+                //     return new GraphQLError("domain already exist")
+                // }
 
                 const product = await Product.findOne({
                     _id: content.idProduct,
