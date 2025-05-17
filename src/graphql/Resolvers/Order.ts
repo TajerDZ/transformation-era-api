@@ -198,7 +198,6 @@ export const resolvers = {
                 throw new GraphQLError(error)
             }
         },
-
     },
     
     Order: {
@@ -587,8 +586,8 @@ export const resolvers = {
 
                         duration: pricePlans?.duration,
                         totalDiscount: totalDiscount,
-                        totalPrice: totalPrice - totalDiscount + totalTva,
-                        subTotalPrice: totalPrice,
+                        totalPrice: totalPrice,
+                        subTotalPrice: pricePlans?.value,
                         tva: totalTva,
 
                         dueDate: dueDate,
@@ -667,8 +666,8 @@ export const resolvers = {
 
                         duration: pricePlans?.duration,
                         totalDiscount: totalDiscount,
-                        totalPrice: totalPrice - totalDiscount + totalTva,
-                        subTotalPrice: totalPrice,
+                        totalPrice: totalPrice,
+                        subTotalPrice: pricePlans?.value,
                         tva: totalTva,
 
                         dueDate: dueDate,
