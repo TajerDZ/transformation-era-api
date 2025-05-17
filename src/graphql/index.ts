@@ -103,7 +103,7 @@ const resolvers = {
 
                 return {
                     filename: imageProduct,
-                    url: "https://sendibad.s3.eu-central-1.amazonaws.com"
+                    url: "https://api.assar.sa/images"
                 }
             } catch (error) {
                 throw new GraphQLError(error)

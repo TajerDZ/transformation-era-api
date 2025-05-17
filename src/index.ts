@@ -91,8 +91,8 @@ export const pubsub = new PubSub();
             // const data = await getAllFolder({idGoogleSheets: "67ed2a5578de156e1b29c476"})
 
             const data = await inviteUserMail({
-                name: "contact",
-                to: "contact@assar.sa",
+                name: "هشام",
+                to: "hicham5lehouedj@gmail.com",
             })
 
             res.status(200).json(data)

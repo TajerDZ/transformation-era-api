@@ -663,7 +663,7 @@ export const forgetPasswordMail = async (mail: {to: string; token: string;}) => 
     }
 };
 
-const bodyInviteUser = (email: string, name: string) => {
+const bodyInviteUser = (name: string) => {
 
     return `
         <!--
@@ -904,7 +904,7 @@ const bodyInviteUser = (email: string, name: string) => {
                                                                                             <tr>
                                                                                                 <td class="t1">
                                                                                                     <a href="#" style="font-size: 0px" target="_blank">
-                                                                                                        <img class="t0" style=" display: block; border: 0; height: auto; width: 100%; margin: 0; max-width: 100%;" width="60" height="59.0625" alt="" src="https://7cadea54-6fc6-4d13-98fc-cf4a60a1b0af.b-cdn.net/e/157f4875-6459-483f-a6eb-3f74af0af82f/97773ff9-dac8-496d-9f0a-5524728406f6.png"/>
+                                                                                                        <img class="t0" style=" display: block; border: 0; height: auto; width: 100%; margin: 0; max-width: 100%;" width="60" height="59.0625" alt="" src="https://cp.assar.sa/assets/logo-DN-LF2-f.png"/>
                                                                                                     </a>
                                                                                                 </td>
                                                                                             </tr>
@@ -936,7 +936,7 @@ const bodyInviteUser = (email: string, name: string) => {
                                                                                             <tr>
                                                                                                 <td class="t7">
                                                                                                     <h1 class="t6" style=" margin: 0; margin: 0; margin-top: 20px; font-family: Inter, BlinkMacSystemFont, Segoe UI, Helvetica Neue, Arial, sans-serif; line-height: 28px; font-weight: 600; font-style: normal; font-size: 24px; text-decoration: none; text-transform: none; letter-spacing: -1.2px; direction: ltr; color: #111111; text-align: center; mso-line-height-rule: exactly; mso-text-raise: 1px;">
-                                                                                                        🎉 You&#39;ve Been Invited to Sindbad!
+                                                                                                        🎉 مرحبا بك ${name}
                                                                                                     </h1>
                                                                                                 </td>
                                                                                             </tr>
@@ -966,10 +966,9 @@ const bodyInviteUser = (email: string, name: string) => {
                                                                                         <table class="t14" role="presentation" cellpadding="0" cellspacing="0" width="100%" style="width: 100%">
                                                                                             <tr>
                                                                                                 <td class="t13">
-                                                                                                    <p class="t11" style=" margin: 0; margin: 0; font-family: Inter, BlinkMacSystemFont, Segoe UI, Helvetica Neue, Arial, sans-serif; line-height: 22px; font-weight: 500; font-style: normal; font-size: 15px; text-decoration: none; text-transform: none; letter-spacing: -0.6px; direction: ltr; color: #5e5e5e; text-align: center; mso-line-height-rule: exactly; mso-text-raise: 2px;">
-                                                                                                        Hello ${name},&nbsp;
-                                                                                                        You’ve been invited to join
-                                                                                                        Sindbad. Get started now&nbsp;
+                                                                                                    <p class="t11" style=" margin: 0; margin: 0; font-family: Inter, BlinkMacSystemFont, Segoe UI, Helvetica Neue, Arial, sans-serif; line-height: 22px; font-weight: 500; font-style: normal; font-size: 15px; text-decoration: none; text-transform: none; letter-spacing: -0.6px; direction: rtl; color: #5e5e5e; text-align: center; mso-line-height-rule: exactly; mso-text-raise: 2px;">
+                                                                                                    مرحبا  ${name},&nbsp;
+                                                                                                    <br />تم إنشاء حسابك بنجاح. يمكن تسجيل الدخول من هنا
                                                                                                     </p>
                                                                                                 </td>
                                                                                             </tr>
@@ -1001,7 +1000,7 @@ const bodyInviteUser = (email: string, name: string) => {
                                                                                                                         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" class="t19" style="width: 100%">
                                                                                                                             <tr>
                                                                                                                                 <td class="t18" style=" overflow: hidden; background-color: #fdcf08; text-align: center; line-height: 24px; mso-line-height-rule: exactly; mso-text-raise: 2px; padding: 10px 10px 10px 10px; border-radius: 8px 8px 8px 8px;">
-                                                                                                                                    <a href="https://admin.sendibad.shop/join-workspace/?email=${email}" class="t17" style=" display: block; margin: 0; margin: 0; font-family: Lato, BlinkMacSystemFont, Segoe UI, Helvetica Neue, Arial, sans-serif; line-height: 24px; font-weight: 700; font-style: normal; font-size: 16px; text-decoration: none; direction: ltr; color: #333; text-align: center; mso-line-height-rule: exactly; mso-text-raise: 2px;">Join theaccount</a>
+                                                                                                                                    <a href="https://cp.assar.sa" class="t17" style=" display: block; margin: 0; margin: 0; font-family: Lato, BlinkMacSystemFont, Segoe UI, Helvetica Neue, Arial, sans-serif; line-height: 24px; font-weight: 700; font-style: normal; font-size: 16px; text-decoration: none; direction: ltr; color: #333; text-align: center; mso-line-height-rule: exactly; mso-text-raise: 2px;">دخول</a>
                                                                                                                                 </td>
                                                                                                                             </tr>
                                                                                                                         </table>
@@ -1054,8 +1053,9 @@ export const inviteUserMail = async (mail: {to: string; name: string;}) => {
         const info = await transporter.sendMail({
             from: '"Contact Assar" <noreply@assar.sa>',
             to: mail.to,
-            subject: "Invite to company",
-            html: "<p>test mail</p>"
+            subject: "مرحبا بك في عصر التحول",
+            html: bodyInviteUser(mail.name),
+            text: `مرحبا ${mail.name}, تم إنشاء حسابك بنجاح. يمكن تسجيل الدخول من هنا`
         });
 
         console.log("Message sent: %s", info.messageId);
