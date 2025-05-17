@@ -346,9 +346,12 @@ export const resolvers = {
                 //@ts-ignore
                 const pricePlans = plan?.prices?.find(price => price?._id?.toString() === content.idPrice)
 
+                console.log({pricePlans})
                 const totalPrice = pricePlans?.value * pricePlans?.duration
                 const totalDiscount = (pricePlans?.value * pricePlans?.duration) * pricePlans?.discount / 100
                 const totalTva = (pricePlans?.value * pricePlans?.duration) * 0.15
+
+                console.log({totalPrice, totalDiscount, totalTva})
 
                 let order = await Order.create({
                     ...content,
