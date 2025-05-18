@@ -356,7 +356,7 @@ export const resolvers = {
                 const totalDiscount = (pricePlans?.value * pricePlans?.discount) / 100
                 const totalTva = pricePlans?.value * 0.15
 
-                const totalPrice = pricePlans?.value - totalDiscount + totalTva
+                const totalPrice = pricePlans?.value - totalDiscount
 
                 console.log(pricePlans?.value, {totalDiscount, totalTva, totalPrice})
                 let order = await Order.create({
@@ -586,7 +586,7 @@ export const resolvers = {
                     const totalDiscount = pricePlans?.value * pricePlans?.discount / 100
                     const totalTva = pricePlans?.value * 0.15
 
-                    const totalPrice = pricePlans?.value - totalDiscount + totalTva
+                    const totalPrice = pricePlans?.value - totalDiscount
 
                     const countInvoice = await Invoice.countDocuments()
                     const invoice = await Invoice.create({
@@ -666,7 +666,7 @@ export const resolvers = {
                     const totalDiscount = pricePlans?.value * pricePlans?.discount / 100
                     const totalTva = pricePlans?.value * 0.15
 
-                    const totalPrice = pricePlans?.value - totalDiscount + totalTva
+                    const totalPrice = pricePlans?.value - totalDiscount
 
                     const countInvoice = await Invoice.countDocuments()
                     const invoice = await Invoice.create({
