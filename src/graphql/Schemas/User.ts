@@ -90,6 +90,7 @@ export const typeDefs = `#graphql
         lastname:               String
         email:              String
         phone:              String
+        role:               Role
     }
 
     input contentPassword {
