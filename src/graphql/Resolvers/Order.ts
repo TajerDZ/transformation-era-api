@@ -48,7 +48,7 @@ export const resolvers = {
                     const {limit, page} = pagination;
                     options.limit = limit;
                     options.skip = (page - 1) * limit;
-                    options.sort = {createdAt: -1};
+                    options.sort = {updatedAt: -1};
                 }
 
                 const products = await Order.find(query, null, options)
@@ -90,7 +90,7 @@ export const resolvers = {
                     const {limit, page} = pagination;
                     options.limit = limit;
                     options.skip = (page - 1) * limit;
-                    options.sort = {createdAt: -1};
+                    options.sort = {updatedAt: -1};
                 }
 
                 const products = await Order.find(query, null, options)
@@ -142,7 +142,7 @@ export const resolvers = {
                     const {limit, page} = pagination;
                     options.limit = limit;
                     options.skip = (page - 1) * limit;
-                    options.sort = {createdAt: -1};
+                    options.sort = {updatedAt: -1};
                 }
 
                 const invoices = await Invoice.find(query, null, options)
@@ -184,7 +184,7 @@ export const resolvers = {
                     const {limit, page} = pagination;
                     options.limit = limit;
                     options.skip = (page - 1) * limit;
-                    options.sort = {createdAt: -1};
+                    options.sort = {updatedAt: -1};
                 }
 
                 const invoices = await Invoice.find(query, null, options)
