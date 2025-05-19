@@ -290,15 +290,6 @@ export const resolvers = {
     },
 
     Invoice: {
-        order: async ({idOrder}, {id}, contextValue, info) =>  {
-            try {
-                const order = await Order.findById(idOrder);
-
-                return order
-            } catch (error) {
-                throw new GraphQLError(error)
-            }
-        },
         user: async ({idUser}, {id}, contextValue, info) =>  {
             try {
                 const user = await User.findById(idUser);
@@ -307,16 +298,7 @@ export const resolvers = {
             } catch (error) {
                 throw new GraphQLError(error)
             }
-        },
-        product: async ({idProduct}, {id}, contextValue, info) =>  {
-            try {
-                const product = await Product.findById(idProduct);
-
-                return product
-            } catch (error) {
-                throw new GraphQLError(error)
-            }
-        },
+        }
     },
 
     Mutation: {
