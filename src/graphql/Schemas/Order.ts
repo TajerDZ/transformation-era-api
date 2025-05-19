@@ -95,19 +95,12 @@ export const typeDefs = `#graphql
 
     type Invoice {
         id:         ID
-        numberInvoice: String
-        type: String
-        price: Float
-        duration:  Int
-        totalDiscount:  Float
-        totalPrice:  Float
-        subTotalPrice:  Float
-        tva:  Float
-        dueDate: Date
-        status: String
 
-        order: Order
-        product: Product
+        numberInvoice:  String
+        totalPrice:     Float
+        file:           String
+        date:           Date
+
         user: User
         
         createdAt:  Date
@@ -148,20 +141,12 @@ export const typeDefs = `#graphql
         idPrice: ID
         renewalDate: ID
     }
+
     input contentInvoice {
-        numberInvoice: String
-        type: String
-        price: Float
-        duration:  Int
-        totalDiscount:  Float
-        totalPrice:  Float
-        subTotalPrice:  Float
-        tva:  Float
-        dueDate: Date
-        status: String
-    
-        idOrder: ID
-        idProduct: ID
-        idUser: ID
+        numberInvoice:  String
+        totalPrice:     Float
+        file:           String
+        date:           Date
+        idUser:         ID
     }
 `

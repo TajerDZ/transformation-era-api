@@ -19,29 +19,14 @@ export const Upload = async (image: any) => {
 
         const imgType = filename.split(".")[filename.split(".").length-1].toUpperCase()
 
-        const isImage = listType.indexOf(imgType) !== -1
+        // const isImage = listType.indexOf(imgType) !== -1
 
-        if(!isImage) { return new GraphQLError("This file is not image") }
+        // if(!isImage) { return new GraphQLError("This file is not image") }
 
         const imgName: string = `${UUID()}.${imgType}`;
         const uploadPath = path.join(__dirname,   `./../../uploads/${imgName}`);
         const stream = createReadStream();
         await stream.pipe( createWriteStream(uploadPath) );
-
-        if (existsSync(uploadPath)) {
-            console.log("Image exist")
-
-            const pathWebp = path.join(__dirname,   `./../../uploads/${imgName}.webp`);
-            const image = sharp(uploadPath);
-            const metadata = await image.metadata();
-
-            await image.resize({ width: Math.floor(metadata.width! / 1.5), height: Math.floor(metadata.height! / 1.5) })
-                .webp({quality: 15}).toFile(pathWebp)
-
-            const pathWebpBlur = path.join(__dirname,   `./../../uploads/blured/${imgName}.webp`);
-            await image.resize({ width: Math.floor(metadata.width! / 8), height: Math.floor(metadata.height! / 8) })
-                .webp({quality: 1}).blur(10).toFile(pathWebpBlur);
-        }
 
         return imgName
     } catch (e) {

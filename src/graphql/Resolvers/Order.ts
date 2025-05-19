@@ -383,25 +383,6 @@ export const resolvers = {
                     }]
                 })
 
-                const countInvoice = await Invoice.countDocuments()
-                const invoice = await Invoice.create({
-                    numberInvoice: (countInvoice + 1).toString(),
-                    type: "renew",
-                    status: "pending",
-                    price: pricePlans?.value,
-
-                    duration: pricePlans?.duration,
-                    totalDiscount: totalDiscount,
-                    totalPrice: totalPrice,
-                    subTotalPrice: pricePlans?.value,
-                    tva: totalTva,
-
-                    dueDate: content.renewalDate,
-                    idOrder: order._id,
-                    idProduct: order.idProduct,
-                    idUser: order.idUser
-                })
-
                 const createNotifications = await Notifications.create({
                     title: "طلب جديد",
                     msg: "قام عميل بطلب جديد",
@@ -526,10 +507,8 @@ export const resolvers = {
 
         createInvoice: async (parent, {content}, contextValue, info) =>  {
             try {
-                const countInvoice = await Invoice.countDocuments()
                 let invoice = await Invoice.create({
-                    ...content,
-                    numberInvoice: (countInvoice + 1).toString()
+                    ...content
                 })
 
                 return invoice
@@ -588,25 +567,6 @@ export const resolvers = {
 
                     const totalPrice = pricePlans?.value - totalDiscount
 
-                    const countInvoice = await Invoice.countDocuments()
-                    const invoice = await Invoice.create({
-                        numberInvoice: (countInvoice + 1).toString(),
-                        type: "renew",
-                        status: "pending",
-                        price: pricePlans?.value,
-
-                        duration: pricePlans?.duration,
-                        totalDiscount: totalDiscount,
-                        totalPrice: totalPrice,
-                        subTotalPrice: pricePlans?.value,
-                        tva: totalTva,
-
-                        dueDate: dueDate,
-                        idOrder: order._id,
-                        idProduct: product._id,
-                        idUser: order.idUser
-                    })
-
                     const {ok, value} = await Order.findByIdAndUpdate(idOrder, {
                         updated: true,
                         $push: {
@@ -625,7 +585,6 @@ export const resolvers = {
                             }
                         }
                     }, {includeResultMetadata: true, new: true});
-
 
                     const createNotifications = await Notifications.create({
                         title: "طلب تجديد",
@@ -667,25 +626,6 @@ export const resolvers = {
                     const totalTva = pricePlans?.value * 0.15
 
                     const totalPrice = pricePlans?.value - totalDiscount
-
-                    const countInvoice = await Invoice.countDocuments()
-                    const invoice = await Invoice.create({
-                        numberInvoice: (countInvoice + 1).toString(),
-                        type: "upgrade",
-                        status: "pending",
-                        price: pricePlans?.value,
-
-                        duration: pricePlans?.duration,
-                        totalDiscount: totalDiscount,
-                        totalPrice: totalPrice,
-                        subTotalPrice: pricePlans?.value,
-                        tva: totalTva,
-
-                        dueDate: dueDate,
-                        idOrder: order._id,
-                        idProduct: order.idProduct,
-                        idUser: order.idUser
-                    })
 
                     const {ok, value} = await Order.findByIdAndUpdate(idOrder, {
                         updated: true,
