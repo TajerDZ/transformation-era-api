@@ -300,11 +300,26 @@ export const resolvers = {
 
         updateUser: async (parent, {id, content}, contextValue, info) =>  {
             try {
-                let {ok, value} = await User.findByIdAndUpdate(id, content, {includeResultMetadata: true, new: true});
+                if (content?.password !== undefined && content?.password !== null && content?.password !== "") {
+                    let newPassword = await hashPassword(content.password);
+                    let {ok, value} = await User.findByIdAndUpdate(id, {
+                        ...content,
+                        password: newPassword
+                    }, {includeResultMetadata: true, new: true});
 
-                return {
-                    data: value,
-                    status: ok === 1
+                    return {
+                        data: value,
+                        status: ok === 1
+                    }
+                } else {
+                    if ("password" in content) delete content.password
+
+                    let {ok, value} = await User.findByIdAndUpdate(id, content, {includeResultMetadata: true, new: true});
+
+                    return {
+                        data: value,
+                        status: ok === 1
+                    }
                 }
             } catch (error) {
                 throw new GraphQLError(error)
