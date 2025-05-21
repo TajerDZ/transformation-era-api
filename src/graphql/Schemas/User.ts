@@ -91,6 +91,7 @@ export const typeDefs = `#graphql
         email:              String
         phone:              String
         role:               Role
+        password:   String
     }
 
     input contentPassword {
