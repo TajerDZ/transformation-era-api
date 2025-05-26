@@ -1,5 +1,3 @@
-import {Types} from "mongoose";
-
 export const typeDefs = `#graphql
     type Query {
         logIn(content: loginInfo): AuthUser!

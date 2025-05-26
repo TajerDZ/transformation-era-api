@@ -145,6 +145,7 @@ export const resolvers = {
                     plans: {$elemMatch: {_id: new Types.ObjectId(id)}}
                 }, {"plans.$": 1});
 
+                console.log({product});
                 if (product?.plans?.length > 0) {
                     let result = await Product.findOneAndUpdate({
                         _id: new Types.ObjectId(idProduct),
@@ -156,6 +157,9 @@ export const resolvers = {
                             "plans.$.prices": content?.prices
                         }
                     }, {new: true});
+
+                    console.log({result});
+                    
 
                     if (result) {
                         return {
