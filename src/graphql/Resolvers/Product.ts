@@ -147,6 +147,8 @@ export const resolvers = {
 
                 console.log({product});
                 if (product?.plans?.length > 0) {
+                    
+                    console.log({content});
                     let result = await Product.findOneAndUpdate({
                         _id: new Types.ObjectId(idProduct),
                         "plans._id": new Types.ObjectId(id)
@@ -156,8 +158,9 @@ export const resolvers = {
                             "plans.$.details": content?.details,
                             "plans.$.prices": content?.prices
                         }
-                    }, {new: true});
+                    }, {new: true,});
 
+                    console.log({plans: result.plans});
                     console.log({result});
                     
 
