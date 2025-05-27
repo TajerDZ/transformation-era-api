@@ -156,7 +156,8 @@ export const resolvers = {
                         $set: {
                             "plans.$.name": content?.name,
                             "plans.$.details": content?.details,
-                            "plans.$.prices": content?.prices
+                            "plans.$.prices": content?.prices,
+                            "plans.$.description": content?.description
                         }
                     }, {new: true,});
 
