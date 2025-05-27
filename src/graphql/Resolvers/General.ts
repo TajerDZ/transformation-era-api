@@ -139,7 +139,7 @@ export const resolvers = {
         },
         clientStatistics: async (parent, {idUser}, {}, info) =>  {
             try {
-                const numberInvoices = await Invoice.countDocuments({status: "paid", idUser})
+                const numberInvoices = await Invoice.countDocuments({idUser})
 
                 const numberHostingPlan = await Order.aggregate([
                     {$match: {status: 'paid', section: 'hosting_plan', idUser: new Types.ObjectId(idUser)}},
