@@ -30,7 +30,7 @@ export const resolvers = {
                 const role = req.headers.origin == "https://ds.assar.sa" ? "owner" : "user"
 
 
-                let user = await User.findOne({ email: content.email, role });
+                let user = await User.findOne({ deleted: false, email: content.email, role });
 
                 console.log({user})
                 // If Password don't match
