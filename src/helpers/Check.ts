@@ -16,7 +16,7 @@ export const isExistUser = async (id: string) => {
 
 export const alreadyExistUser = async (email: string, phone: string) => {
     try {
-        const user = await User.findOne({deleted: false, $or: [{email}, {phone}]}).exec();
+        const user = await User.findOne({deleted: false, $or: [{email}, {phone}]})
 
         if (user) {
             if (user.email === email && user.phone === phone) return {"message": "account already exists", "code": "ACCOUNT_ALREADY_EXIST"}
