@@ -226,6 +226,7 @@ export const resolvers = {
             try {
                 let alreadyExist = await alreadyExistUser(content.email, content.phone);
 
+                console.log({alreadyExist});
                 if (alreadyExist !== false) {
                     return new GraphQLError(alreadyExist.message, {
                         extensions: {
