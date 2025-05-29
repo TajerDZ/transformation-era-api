@@ -25,7 +25,7 @@ export const UserSchema = new Schema<UserI>({
     thumbnail: { type: String },
     firstname: { type: String, required: true },
     lastname: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique: false },
 
     phone: { type: String, required: true },
 
