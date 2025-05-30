@@ -224,7 +224,7 @@ export const resolvers = {
     Mutation: {
         singUp: async (parent, {content}, contextValue, info) =>  {
             try {
-                let alreadyExist = await alreadyExistUser(content.email, content.phone);
+                let alreadyExist = await alreadyExistUser(content.email);
 
                 console.log({alreadyExist});
                 if (alreadyExist !== false) {
@@ -263,7 +263,7 @@ export const resolvers = {
 
         createUser: async (parent, {content}, contextValue, info) =>  {
             try {
-                let alreadyExist = await alreadyExistUser(content.email, content.phone);
+                let alreadyExist = await alreadyExistUser(content.email);
 
                 if (alreadyExist !== false) {
                     return new GraphQLError(alreadyExist.message, {

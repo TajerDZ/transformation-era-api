@@ -14,16 +14,14 @@ export const isExistUser = async (id: string) => {
     }
 }
 
-export const alreadyExistUser = async (email: string, phone: string) => {
+export const alreadyExistUser = async (email: string) => {
     try {
-        const user = await User.findOne({deleted: false, $or: [{email}, {phone}]})
+        const user = await User.findOne({deleted: false, email})
 
         console.log({user});
         
         if (user) {
-            if (user.email === email && user.phone === phone) return {"message": "account already exists", "code": "ACCOUNT_ALREADY_EXIST"}
-            else if (user.email === email) return {"message": "email already exists", "code": "EMAIL_ALREADY_EXIST"}
-            else if (user.phone === phone) return {"message": "phone already exists", "code": "PHONE_ALREADY_EXIST"}
+            if (user.email === email) return {"message": "email already exists", "code": "EMAIL_ALREADY_EXIST"}
         }
         else return false
     } catch (error) {
