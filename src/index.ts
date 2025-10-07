@@ -171,9 +171,9 @@ export const pubsub = new PubSub();
 
     try {
         const MONGO_DB_URL = process.env.MONGO_DB_URL
-        // await mongoose.connect(MONGO_DB_URL, {
-        //     dbName: "transformation-era",
-        // });
+        await mongoose.connect(MONGO_DB_URL, {
+            dbName: "transformation-era",
+        });
         console.log('MongoDB Connection has been established successfully.');
     } catch (error) {
         console.error('Unable to connect to the database:', error);
