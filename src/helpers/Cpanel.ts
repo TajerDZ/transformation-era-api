@@ -54,3 +54,38 @@ export const getCpanel = async (username: string) => {
         }
     }
 };
+
+export const createAccount = async (domain: string) => {
+    try {
+        return await axios.get(`https://s3474.fra1.stableserver.net:2087/json-api/createacct`, {
+            headers: {
+                Authorization: Authorization
+            },
+            httpsAgent: new Agent({ rejectUnauthorized: false }), // فقط عند وجود مشاكل شهادة SSL
+            params: {
+                "api.version": 1,
+                "domain": "",
+                "username": "apihicham",
+                "password": "YourStrongPassword123",
+                "contactemail": "hichamslehouedj@gmail.com",
+                "pkgname": "maarifte_ihcc",
+                "theme": "jupiter",
+                "locale": "en",
+                "spamassassin": 1,
+                "spamassassin_spam_box": 1,
+                "mxcheck": "local",
+                "dkim": 0,
+                "spf": 1,
+                "dmarc": 1
+            }
+        });
+    } catch (err) {
+        if (axios.isAxiosError(err) && err.response) {
+            console.log(err.response.data);
+            return {status: 400, data: null}
+        } else {
+            console.log(err);
+            return {status: 400, data: null}
+        }
+    }
+};

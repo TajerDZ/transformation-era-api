@@ -26,7 +26,7 @@ import {PubSub} from "graphql-subscriptions";
 import cron from 'node-cron';
 
 import {createReadStream} from "node:fs";
-import {getCpanel, welcomeUserMail} from "./helpers/index.js";
+import {createPaymentsMoyasar, verifyPaymentsMoyasar} from "./helpers/index.js";
 
 const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
@@ -93,6 +93,42 @@ export const pubsub = new PubSub();
         }
     })
 
+    app.post("/payment/create-payment", async (req, res) => {
+        try {
+            console.log(req.body)
+            const response = await createPaymentsMoyasar(req.body)
+
+            res.json(response);
+        } catch (err) {
+            res.status(500).json({ error: err });
+        }
+    })
+
+    app.get("/payment/callback", async (req, res) => {
+        try {
+            const { id, status, message } = req.query;
+            const paymentId = req.body.id;
+            const payment = await verifyPaymentsMoyasar(id as string)
+
+            res.json(payment);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json(error);
+        }
+    })
+
+    app.post("/payment/callback", async (req, res) => {
+        try {
+            const paymentId = req.body.id;
+            const payment = await verifyPaymentsMoyasar(paymentId)
+
+            res.json(payment);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json(error);
+        }
+    })
+
     const wsServer = new WebSocketServer({ server: httpServer, path: '/graphql' });
     const serverCleanup = useServer({ schema }, wsServer);
 
@@ -135,9 +171,9 @@ export const pubsub = new PubSub();
 
     try {
         const MONGO_DB_URL = process.env.MONGO_DB_URL
-        await mongoose.connect(MONGO_DB_URL, {
-            dbName: "transformation-era",
-        });
+        // await mongoose.connect(MONGO_DB_URL, {
+        //     dbName: "transformation-era",
+        // });
         console.log('MongoDB Connection has been established successfully.');
     } catch (error) {
         console.error('Unable to connect to the database:', error);
