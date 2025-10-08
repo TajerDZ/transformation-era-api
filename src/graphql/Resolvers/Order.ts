@@ -205,10 +205,11 @@ export const resolvers = {
                 throw new GraphQLError(error)
             }
         },
-        invoice: async ({ _id }, {}, contextValue, info) =>  {
+        invoice: async (parent, {}, contextValue, info) =>  {
             try {
+                console.log({parent, idTimeLineOrder: parent?._id})
                 const invoice = await Invoice.findOne({
-                    idTimeLineOrder: _id
+                    idTimeLineOrder: parent?._id
                 });
 
                 return invoice
