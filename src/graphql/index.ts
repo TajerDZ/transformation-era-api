@@ -4,11 +4,11 @@ import GraphQLUpload from "graphql-upload/GraphQLUpload.mjs"
 
 import {
     typeDefsUser, typeDefsProduct, typeDefsPermission, typeDefsOrder,
-    typeDefsNotifications, typeDefsGeneral
+    typeDefsNotifications, typeDefsGeneral, typeDefsInvoice,
 } from "./Schemas/index.js"
 import {
     resolversUser, resolversProduct, resolversPermission, resolversOrder,
-    resolversNotifications, resolversGeneral
+    resolversNotifications, resolversGeneral, resolversInvoice
 } from "./Resolvers/index.js"
 
 import {authDirectiveTransformer, scopeDirectiveTransformer} from "./Directives/index.js"
@@ -131,11 +131,11 @@ const resolvers = {
 let schema = makeExecutableSchema({
     typeDefs: [
         typeDefs, typeDefsUser, typeDefsProduct, typeDefsPermission, typeDefsOrder,
-        typeDefsNotifications, typeDefsGeneral
+        typeDefsNotifications, typeDefsGeneral, typeDefsInvoice
     ],
     resolvers: [
         resolvers, resolversUser, resolversProduct, resolversPermission, resolversOrder,
-        resolversNotifications, resolversGeneral
+        resolversNotifications, resolversGeneral, resolversInvoice
     ]
 });
 

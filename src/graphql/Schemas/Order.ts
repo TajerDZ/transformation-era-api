@@ -1,14 +1,8 @@
-import {InvoiceSchema} from "../../models/Invoice";
-
 export const typeDefs = `#graphql
     type Query {
         order(id: ID): Order @auth #@scope(requires: [order])
         allOrder(filter: [Filter], pagination: Pagination): OrderWithTotal @auth #@scope(requires: [order])
         allOrderClient(idUser: ID, filter: [Filter], pagination: Pagination): OrderWithTotal @auth #@scope(requires: [order])
-
-        invoice(id: ID): Invoice @auth #@scope(requires: [order])
-        allInvoice(filter: [Filter], pagination: Pagination): InvoiceWithTotal @auth #@scope(requires: [order])
-        allInvoiceClient(idUser: ID, filter: [Filter], pagination: Pagination): InvoiceWithTotal @auth #@scope(requires: [order])
     }
     
     type Mutation {
@@ -18,10 +12,6 @@ export const typeDefs = `#graphql
         changeStatusOrder(id: ID!, status: String): StatusUpdateOrder @auth #@scope(requires: [order])
         deleteOrder (id: ID!): StatusDelete @auth #@scope(requires: [order])
         deleteMultiOrder (id: [ID!]!): StatusDelete @auth #@scope(requires: [order])
-        
-        createInvoice(content: contentInvoice!): Invoice! @auth #@scope(requires: [order])
-        updateInvoice(id: ID!, content: contentInvoice!): StatusUpdateInvoice @auth #@scope(requires: [order])
-        deleteInvoice(id: ID!): StatusDelete @auth #@scope(requires: [order])
         
         renewOrder(idOrder: ID!, idPrice: ID, dueDate: Date): StatusUpdateOrder @auth #@scope(requires: [order]
         upgradeOrder(idOrder: ID!, idPlan: ID, idPrice: ID): StatusUpdateOrder @auth #@scope(requires: [order]
@@ -36,11 +26,6 @@ export const typeDefs = `#graphql
         type: String
     }
     
-    type InvoiceWithTotal {
-        data: [Invoice!]
-        total: Int
-    }
-    
     type OrderWithTotal {
         data: [Order!]
         total: Int
@@ -48,11 +33,6 @@ export const typeDefs = `#graphql
     
     type StatusUpdateOrder {
         data: Order
-        status: Boolean
-    }
-
-    type StatusUpdateInvoice {
-        data: Invoice
         status: Boolean
     }
     
@@ -92,20 +72,6 @@ export const typeDefs = `#graphql
         plan: PlansProduct
         pricePlan: PricesPlansProduct
     }
-
-    type Invoice {
-        id:         ID
-
-        numberInvoice:  String
-        totalPrice:     Float
-        file:           String
-        date:           Date
-
-        user: User
-        
-        createdAt:  Date
-        updatedAt:  Date
-    }
     
     input contentOrder {
         section:     String
@@ -140,13 +106,5 @@ export const typeDefs = `#graphql
         idPlan: ID
         idPrice: ID
         renewalDate: ID
-    }
-
-    input contentInvoice {
-        numberInvoice:  String
-        totalPrice:     Float
-        file:           String
-        date:           Date
-        idUser:         ID
     }
 `
