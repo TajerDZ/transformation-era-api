@@ -509,6 +509,8 @@ export const resolvers = {
                         let countInvoice = await Invoice.countDocuments({deleted: false})
                         const timeLine = value?.timeLine
 
+                        console.log("order", value)
+                        console.log("timeLine", timeLine)
                         let invoice = await Invoice.create({
                             numberInvoice: countInvoice + 1 ,
                             totalPrice: totalPrice,
@@ -519,6 +521,7 @@ export const resolvers = {
                             idOrder: value._id,
                             idTimeLineOrder: timeLine?.[timeLine.length - 1]?._id
                         })
+                        console.log("invoice", invoice)
 
                         if (invoice) {
                             const dataInvoice = await createInvoiceMoyasar({
