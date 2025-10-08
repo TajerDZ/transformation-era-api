@@ -242,7 +242,7 @@ export const resolvers = {
                         linkPayment: null,
                         idUser: order.idUser,
                         idOrder: order._id,
-                        idTimeLineOrder: null
+                        idTimeLineOrder: order?.timeLine?.[0]?._id
                     })
 
                     console.log({countInvoice, invoice})
