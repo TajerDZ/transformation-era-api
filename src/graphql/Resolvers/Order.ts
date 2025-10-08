@@ -291,6 +291,34 @@ export const resolvers = {
                     }]
                 })
 
+                if(order) {
+                    let countInvoice = await Invoice.countDocuments({deleted: false})
+
+                    let invoice = await Invoice.create({
+                        numberInvoice: countInvoice + 1 ,
+                        totalPrice: order.price,
+                        file: null,
+                        date: new Date(),
+                        linkPayment: null,
+                        idUser: order.idUser,
+                        idOrder: order._id
+                    })
+
+                    if (invoice) {
+                        const dataInvoice = await createInvoiceMoyasar({
+                            amount: invoice.totalPrice * 100,
+                            description: `دفع فاتورة الاشتراك`,
+                            idInvoice: invoice._id.toString(),
+                        })
+
+                        if (dataInvoice) {
+                            await Invoice.findByIdAndUpdate(invoice._id, {
+                                linkPayment: dataInvoice?.url
+                            }, {includeResultMetadata: true, new: true})
+                        }
+                    }
+                }
+
                 const createNotifications = await Notifications.create({
                     title: "طلب جديد",
                     msg: "قام عميل بطلب جديد",
