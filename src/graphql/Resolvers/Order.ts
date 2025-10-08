@@ -504,6 +504,36 @@ export const resolvers = {
                         }
                     }, {includeResultMetadata: true, new: true});
 
+
+                    if(ok === 1) {
+                        let countInvoice = await Invoice.countDocuments({deleted: false})
+
+                        let invoice = await Invoice.create({
+                            numberInvoice: countInvoice + 1 ,
+                            totalPrice: totalPrice,
+                            file: null,
+                            date: new Date(),
+                            linkPayment: null,
+                            idUser: value.idUser,
+                            idOrder: value._id,
+                            idTimeLineOrder: value?.timeLine?.[0]?._id
+                        })
+
+                        if (invoice) {
+                            const dataInvoice = await createInvoiceMoyasar({
+                                amount: invoice.totalPrice * 100,
+                                description: `دفع فاتورة الاشتراك`,
+                                idInvoice: invoice._id.toString(),
+                            })
+
+                            if (dataInvoice) {
+                                await Invoice.findByIdAndUpdate(invoice._id, {
+                                    linkPayment: dataInvoice?.url
+                                }, {includeResultMetadata: true, new: true})
+                            }
+                        }
+                    }
+
                     const createNotifications = await Notifications.create({
                         title: "طلب تجديد",
                         msg: "قام عميل بطلب تجديد",
@@ -563,6 +593,36 @@ export const resolvers = {
                             }
                         }
                     }, {includeResultMetadata: true, new: true});
+
+
+                    if(ok === 1) {
+                        let countInvoice = await Invoice.countDocuments({deleted: false})
+
+                        let invoice = await Invoice.create({
+                            numberInvoice: countInvoice + 1 ,
+                            totalPrice: totalPrice,
+                            file: null,
+                            date: new Date(),
+                            linkPayment: null,
+                            idUser: value.idUser,
+                            idOrder: value._id,
+                            idTimeLineOrder: value?.timeLine?.[0]?._id
+                        })
+
+                        if (invoice) {
+                            const dataInvoice = await createInvoiceMoyasar({
+                                amount: invoice.totalPrice * 100,
+                                description: `دفع فاتورة الاشتراك`,
+                                idInvoice: invoice._id.toString(),
+                            })
+
+                            if (dataInvoice) {
+                                await Invoice.findByIdAndUpdate(invoice._id, {
+                                    linkPayment: dataInvoice?.url
+                                }, {includeResultMetadata: true, new: true})
+                            }
+                        }
+                    }
 
                     const createNotifications = await Notifications.create({
                         title: "طلب ترقية",
