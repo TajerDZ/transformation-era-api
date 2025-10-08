@@ -27,7 +27,7 @@ import cron from 'node-cron';
 
 import {createReadStream} from "node:fs";
 import {createPaymentsMoyasar, verifyPaymentsMoyasar} from "./helpers/index.js";
-import {Invoice} from "./models";
+import {Invoice} from "./models/index.js";
 
 const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);

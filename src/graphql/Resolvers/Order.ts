@@ -1,8 +1,8 @@
 import {GraphQLError} from "graphql";
 import dotenv from 'dotenv';
-import {Notifications, Order, Product, User} from "../../models/index.js";
+import {Invoice, Notifications, Order, Product, User} from "../../models/index.js";
 import {Types} from "mongoose";
-import {buildFilter} from "../../helpers/index.js";
+import {buildFilter, createInvoiceMoyasar} from "../../helpers/index.js";
 import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../../index.js";
 
@@ -207,6 +207,27 @@ export const resolvers = {
                 let order = await Order.create({
                     ...content
                 })
+
+                if(order) {
+                    let invoice = await Invoice.create({
+                        ...content,
+                        idOrder: order._id
+                    })
+
+                    if (invoice) {
+                        const dataInvoice = await createInvoiceMoyasar({
+                            amount: invoice.totalPrice * 100,
+                            description: `دفع فاتورة الاشتراك`,
+                            idInvoice: invoice._id.toString(),
+                        })
+
+                        if (dataInvoice) {
+                            await Invoice.findByIdAndUpdate(invoice._id, {
+                                linkPayment: dataInvoice?.url
+                            }, {includeResultMetadata: true, new: true})
+                        }
+                    }
+                }
 
                 return order
             } catch (error) {
