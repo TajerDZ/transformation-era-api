@@ -2,7 +2,8 @@ import axios from "axios";
 
 const MOYASAR_KEY = "pk_test_cxGD5io7sai4hXrY6tFuxawCBwCd839YN6uQrFjh";
 const MOYASAR_SECRET = "sk_test_u5cqDbMjuifK5kt7maFs96EQ28T4WwfgYwQ34Q1j";
-const MOYASAR_CALLBACK_URL = "http://localhost:4000/payment/callback";
+// const MOYASAR_CALLBACK_URL = "http://localhost:4000/payment/callback";
+const MOYASAR_CALLBACK_URL = "https://transformation-era-api.bi3li.shop/payment/callback";
 
 export const createPaymentsMoyasar = async (data: any) => {
     try {
@@ -59,13 +60,13 @@ export const verifyPaymentsMoyasar = async (paymentId: string) => {
 
 export const createInvoiceMoyasar = async (data: any) => {
     try {
-        const {amount, description, source} = data;
+        const {amount, description, idInvoice} = data;
 
         let dataPayment = JSON.stringify({
             "amount": amount,
             "currency": "SAR",
             "description": description,
-            "callback_url": MOYASAR_CALLBACK_URL,
+            "callback_url": `${MOYASAR_CALLBACK_URL}/${idInvoice}`,
             "success_url": null,
             "back_url": null,
             "expired_at": null
@@ -81,10 +82,10 @@ export const createInvoiceMoyasar = async (data: any) => {
             }
         });
 
-        return response;
+        return response.data;
     } catch (error) {
         console.log(error);
-        throw error;
+        return null;
     }
 }
 

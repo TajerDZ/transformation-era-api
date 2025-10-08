@@ -27,8 +27,11 @@ export const typeDefs = `#graphql
         numberInvoice:  String
         totalPrice:     Float
         file:           String
+        status:           String
+        linkPayment:           String
         date:           Date
 
+        order: Order
         user: User
         
         createdAt:  Date
@@ -39,7 +42,9 @@ export const typeDefs = `#graphql
         numberInvoice:  String
         totalPrice:     Float
         file:           String
+        status:           String
         date:           Date
+        idOrder:         ID
         idUser:         ID
     }
 `

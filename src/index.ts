@@ -27,6 +27,7 @@ import cron from 'node-cron';
 
 import {createReadStream} from "node:fs";
 import {createPaymentsMoyasar, verifyPaymentsMoyasar} from "./helpers/index.js";
+import {Invoice} from "./models";
 
 const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
@@ -117,12 +118,20 @@ export const pubsub = new PubSub();
         }
     })
 
-    app.post("/payment/callback", async (req, res) => {
+    app.post("/payment/callback/:idInvoice", async (req, res) => {
         try {
             const body = req.body
+            const idInvoice = req.params.idInvoice
             console.log({body})
 
             res.send("ok")
+
+            if (idInvoice) {
+                await Invoice.findByIdAndUpdate(idInvoice, {
+                    status: "paid"
+                })
+            }
+
         } catch (error) {
             console.error(error);
             res.status(500).json(error);

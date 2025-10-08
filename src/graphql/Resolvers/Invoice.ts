@@ -1,7 +1,7 @@
 import {GraphQLError} from "graphql";
 import dotenv from 'dotenv';
-import {Invoice, User} from "../../models/index.js";
-import {buildFilter} from "../../helpers/index.js";
+import {Invoice, Order, User} from "../../models/index.js";
+import {buildFilter, createInvoiceMoyasar} from "../../helpers/index.js";
 
 dotenv.config();
 
@@ -112,6 +112,15 @@ export const resolvers = {
             } catch (error) {
                 throw new GraphQLError(error)
             }
+        },
+        order: async ({idOrder}, {id}, contextValue, info) =>  {
+            try {
+                const order = await Order.findById(idOrder);
+
+                return order
+            } catch (error) {
+                throw new GraphQLError(error)
+            }
         }
     },
 
@@ -121,6 +130,22 @@ export const resolvers = {
                 let invoice = await Invoice.create({
                     ...content
                 })
+
+                if (invoice) {
+                    const dataInvoice = await createInvoiceMoyasar({
+                        amount: invoice.totalPrice * 100,
+                        description: `دفع فاتورة الاشتراك`,
+                        idInvoice: invoice._id.toString(),
+                    })
+
+                    if (dataInvoice) {
+                        const {value} = await Invoice.findByIdAndUpdate(invoice._id, {
+                            linkPayment: dataInvoice?.url
+                        }, {includeResultMetadata: true, new: true})
+
+                        invoice = value
+                    }
+                }
 
                 return invoice
             } catch (error) {
