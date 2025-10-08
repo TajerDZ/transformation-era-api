@@ -241,7 +241,8 @@ export const resolvers = {
                         date: new Date(),
                         linkPayment: null,
                         idUser: order.idUser,
-                        idOrder: order._id
+                        idOrder: order._id,
+                        idTimeLineOrder: null
                     })
 
                     console.log({countInvoice, invoice})
@@ -323,7 +324,8 @@ export const resolvers = {
                         date: new Date(),
                         linkPayment: null,
                         idUser: order.idUser,
-                        idOrder: order._id
+                        idOrder: order._id,
+                        idTimeLineOrder: order?.timeLine?.[0]?._id
                     })
 
                     if (invoice) {

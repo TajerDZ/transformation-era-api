@@ -20,6 +20,7 @@ export interface OrderI extends SoftDeleteDocument {
     updated: boolean
 
     timeLine: {
+        _id: Types.ObjectId
         type: string
         createdAt: Date
         status: string
