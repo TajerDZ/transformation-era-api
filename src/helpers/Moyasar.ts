@@ -56,3 +56,35 @@ export const verifyPaymentsMoyasar = async (paymentId: string) => {
         throw error;
     }
 }
+
+export const createInvoiceMoyasar = async (data: any) => {
+    try {
+        const {amount, description, source} = data;
+
+        let dataPayment = JSON.stringify({
+            "amount": amount,
+            "currency": "SAR",
+            "description": description,
+            "callback_url": MOYASAR_CALLBACK_URL,
+            "success_url": null,
+            "back_url": null,
+            "expired_at": null
+        })
+
+        const response = await axios.post(`https://api.moyasar.com/v1/invoices`, dataPayment, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            auth: {
+                username: MOYASAR_SECRET,
+                password: ""
+            }
+        });
+
+        return response;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+

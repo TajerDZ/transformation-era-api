@@ -119,10 +119,15 @@ export const pubsub = new PubSub();
 
     app.post("/payment/callback", async (req, res) => {
         try {
+            console.log({
+                body: req.body,
+                query: req.query,
+                params: req.params
+            })
             const paymentId = req.body.id;
             const payment = await verifyPaymentsMoyasar(paymentId)
 
-            res.json(payment);
+            res.send("ok")
         } catch (error) {
             console.error(error);
             res.status(500).json(error);
