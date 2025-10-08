@@ -205,6 +205,17 @@ export const resolvers = {
                 throw new GraphQLError(error)
             }
         },
+        invoice: async ({ _id }, {}, contextValue, info) =>  {
+            try {
+                const invoice = await Invoice.findOne({
+                    idTimeLineOrder: _id
+                });
+
+                return invoice
+            } catch (error) {
+                throw new GraphQLError(error)
+            }
+        },
     },
 
     Mutation: {

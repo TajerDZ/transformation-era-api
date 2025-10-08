@@ -13,6 +13,7 @@ export interface InvoiceI extends SoftDeleteDocument {
     status: string
 
     idOrder: Types.ObjectId
+    idTimeLineOrder: Types.ObjectId
     idUser: Types.ObjectId
 }
 
@@ -24,6 +25,7 @@ export const InvoiceSchema = new Schema<InvoiceI>({
     status: { type: String, default: 'pending' },
     date: { type: Date },
     idOrder: { type: Schema.Types.ObjectId, ref: 'Order' },
+    idTimeLineOrder: { type: Schema.Types.ObjectId },
     idUser: { type: Schema.Types.ObjectId, ref: 'User' }
 }, {
     timestamps: true

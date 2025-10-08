@@ -72,6 +72,8 @@ export const typeDefs = `#graphql
         product: Product
         plan: PlansProduct
         pricePlan: PricesPlansProduct
+
+        invoice: Invoice
     }
     
     input contentOrder {
