@@ -208,6 +208,7 @@ export const resolvers = {
                     ...content
                 })
 
+                console.log({order})
                 if(order) {
                     let countInvoice = await Invoice.countDocuments({deleted: false})
 
@@ -221,6 +222,7 @@ export const resolvers = {
                         idOrder: order._id
                     })
 
+                    console.log({countInvoice, invoice})
                     if (invoice) {
                         const dataInvoice = await createInvoiceMoyasar({
                             amount: invoice.totalPrice * 100,
@@ -228,6 +230,7 @@ export const resolvers = {
                             idInvoice: invoice._id.toString(),
                         })
 
+                        console.log({dataInvoice})
                         if (dataInvoice) {
                             await Invoice.findByIdAndUpdate(invoice._id, {
                                 linkPayment: dataInvoice?.url
