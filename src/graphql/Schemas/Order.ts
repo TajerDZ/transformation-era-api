@@ -51,6 +51,7 @@ export const typeDefs = `#graphql
         domainName: String
         updated: Boolean
         timeLine: [TimeLineOrder]
+        invoice: Invoice
     
         createdAt:  Date
         updatedAt:  Date
