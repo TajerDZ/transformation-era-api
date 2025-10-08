@@ -209,8 +209,15 @@ export const resolvers = {
                 })
 
                 if(order) {
+                    let countInvoice = await Invoice.countDocuments({deleted: false})
+
                     let invoice = await Invoice.create({
-                        ...content,
+                        numberInvoice: countInvoice + 1 ,
+                        totalPrice: order.price,
+                        file: null,
+                        date: new Date(),
+                        linkPayment: null,
+                        idUser: order.idUser,
                         idOrder: order._id
                     })
 
