@@ -507,6 +507,7 @@ export const resolvers = {
 
                     if(ok === 1) {
                         let countInvoice = await Invoice.countDocuments({deleted: false})
+                        const timeLine = value?.timeLine
 
                         let invoice = await Invoice.create({
                             numberInvoice: countInvoice + 1 ,
@@ -516,7 +517,7 @@ export const resolvers = {
                             linkPayment: null,
                             idUser: value.idUser,
                             idOrder: value._id,
-                            idTimeLineOrder: value?.timeLine?.[0]?._id
+                            idTimeLineOrder: timeLine?.[timeLine.length - 1]?._id
                         })
 
                         if (invoice) {
@@ -598,6 +599,8 @@ export const resolvers = {
                     if(ok === 1) {
                         let countInvoice = await Invoice.countDocuments({deleted: false})
 
+                        const timeLine = value?.timeLine
+
                         let invoice = await Invoice.create({
                             numberInvoice: countInvoice + 1 ,
                             totalPrice: totalPrice,
@@ -606,7 +609,7 @@ export const resolvers = {
                             linkPayment: null,
                             idUser: value.idUser,
                             idOrder: value._id,
-                            idTimeLineOrder: value?.timeLine?.[0]?._id
+                            idTimeLineOrder: timeLine?.[timeLine.length - 1]?._id
                         })
 
                         if (invoice) {
