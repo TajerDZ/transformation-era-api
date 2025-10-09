@@ -46,7 +46,7 @@ export const pubsub = new PubSub();
         "https://cp.assar.sa",
         "https://ds.assar.sa",
         "https://transformation-era.bi3li.shop",
-        "https://wcwcksg4sgoockosg0sw0ckg.coolify.bi3li.cloud"
+        "https://transformation-era-admin.bi3li.shop"
     ]
 
     let corsOptionsDelegate = function (req: any, callback: any) {
