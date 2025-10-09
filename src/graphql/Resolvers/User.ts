@@ -27,7 +27,7 @@ export const resolvers = {
         logIn: async (parent, {content}, {req}, info) =>  {
             try {
 
-                const role = req.headers.origin == "https://ds.assar.sa" ? "owner" : "user"
+                const role = req.headers.origin == "https://transformation-era-admin.bi3li.shop" ? "owner" : "user"
 
 
                 let user = await User.findOne({ deleted: false, email: content.email, role });
