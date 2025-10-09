@@ -2,6 +2,8 @@ export const typeDefs = `#graphql
     type Query {
         product(id: ID): Product @auth #@scope(requires: [product])
         allProduct(filter: [Filter], pagination: Pagination): ProductWithTotal @auth #@scope(requires: [product])
+        
+        publicProduct(id: ID): Product #@auth @scope(requires: [product])
         allPublicProduct(filter: [Filter], pagination: Pagination): ProductWithTotal #@auth @scope(requires: [product])
     }
     

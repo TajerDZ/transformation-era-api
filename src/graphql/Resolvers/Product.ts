@@ -103,6 +103,15 @@ export const resolvers = {
             }
         },
 
+        publicProduct: async (parent, {id}, contextValue, info) =>  {
+            try {
+                const product = await Product.findById(id);
+
+                return product
+            } catch (error) {
+                throw new GraphQLError(error)
+            }
+        },
     },
 
     Mutation: {
