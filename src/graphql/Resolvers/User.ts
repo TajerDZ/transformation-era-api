@@ -255,7 +255,10 @@ export const resolvers = {
 
                 // await verificationMail ({to: content.email, token: token});
 
-                return user
+                // Issue Token
+                let token = AuthToken({id: user._id, role: user.role}, 365);
+
+                return {token, user}
             } catch (error) {
                 throw new GraphQLError(error)
             }

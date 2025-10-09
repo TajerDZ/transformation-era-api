@@ -9,7 +9,7 @@ export const typeDefs = `#graphql
     }
 
     type Mutation {
-        singUp(content: contentUser!): User!
+        singUp(content: contentUser!): AuthUser!
         createUser(content: contentUser!): User! @auth
         updateUser(id: ID!, content: contentProfile!): StatusUpdateWithUser @auth #@scope(requires: [user])
         deleteUser ( id: ID! ): StatusDelete @auth #@scope(requires: [user])
