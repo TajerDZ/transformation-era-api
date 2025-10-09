@@ -45,7 +45,7 @@ export const pubsub = new PubSub();
         "http://localhost:3003",
         "https://cp.assar.sa",
         "https://ds.assar.sa",
-        "https://r0kswwwokcscg8kkgow8gc4o.coolify.bi3li.cloud",
+        "https://transformation-era.bi3li.shop",
         "https://wcwcksg4sgoockosg0sw0ckg.coolify.bi3li.cloud"
     ]
 
