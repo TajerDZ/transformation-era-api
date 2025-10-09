@@ -154,13 +154,11 @@ export const resolvers = {
                 throw new GraphQLError(error)
             }
         },
-        invoice: async ({_id}, {}, contextValue, info) =>  {
-            try {
-                const invoice = await Invoice.findOne({
-                    idOrder: _id
-                });
 
-                return invoice
+        lastTimeLine: async ({timeLine}, {id}, contextValue, info) =>  {
+            try {
+
+                return timeLine?.[timeLine?.length - 1] || null
             } catch (error) {
                 throw new GraphQLError(error)
             }
