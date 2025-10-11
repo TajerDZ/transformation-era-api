@@ -197,7 +197,14 @@ export const resolvers = {
 
                     if (status === 200 && data?.data !== undefined && data?.data !== null) {
                         const url = data?.data?.url;
-                        return url
+                        return {
+                            url: url,
+                            filemanager: `${url}/frontend/jupiter/filemanager/index.html`,
+                            dns: `${url}/frontend/jupiter/zone_editor/index.html`,
+                            emails: `${url}/frontend/jupiter/email_accounts/index.html`,
+                            sql: `${url}/frontend/jupiter/sql/index.html`,
+                            backup: `${url}/frontend/jupiter/backup/index.html`,
+                        }
                     }
                     return null
                 }

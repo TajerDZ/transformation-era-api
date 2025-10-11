@@ -4,7 +4,16 @@ export const typeDefs = `#graphql
         clientStatistics(idUser: ID): ClientStatistics @auth
 
         cpanel(idOrder: ID!): Cpanel @auth
-        cpanelUrl(userName: String!): String @auth
+        cpanelUrl(userName: String!): CpanelLinks @auth
+    }
+
+    type CpanelLinks {
+        url:     String
+        filemanager:     String
+        dns:     String
+        emails:     String
+        sql:     String
+        backup:     String
     }
 
     type HomeStatistics {
