@@ -65,10 +65,21 @@ export const typeDefs = `#graphql
         emailVerify:        Boolean
 
         permissionGroup:      PermissionGroup
+        address:    Address
         
         createdAt:  Date
         updatedAt:  Date
         deletedAt:  Date
+    }
+
+
+    type Address {
+        street: String
+        number: String
+        city: String
+        zipcode: String
+        state: String
+        country: String
     }
 
     input contentUser {
@@ -81,6 +92,8 @@ export const typeDefs = `#graphql
         role:       Role
         password:   String
         idPermissionGroup:      ID
+        
+        address:    contentAddress
     }
 
     input contentProfile {
@@ -90,6 +103,8 @@ export const typeDefs = `#graphql
         phone:              String
         role:               Role
         password:   String
+        address:    contentAddress
+        
     }
 
     input contentPassword {
@@ -101,5 +116,14 @@ export const typeDefs = `#graphql
         email:              String!
         code:              String!
         password:           String!
+    }
+
+    input contentAddress {
+        street: String
+        number: String
+        city: String
+        zipcode: String
+        state: String
+        country: String
     }
 `

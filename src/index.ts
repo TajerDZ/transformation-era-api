@@ -26,8 +26,9 @@ import {PubSub} from "graphql-subscriptions";
 import cron from 'node-cron';
 
 import {createReadStream} from "node:fs";
-import {createPaymentsMoyasar, verifyPaymentsMoyasar} from "./helpers/index.js";
+import {createPaymentsMoyasar, parseDomain, parsePhone, verifyPaymentsMoyasar} from "./helpers/index.js";
 import {Invoice} from "./models/index.js";
+import {checkDomainAvailability} from "./helpers/Domains";
 
 const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
@@ -74,17 +75,17 @@ export const pubsub = new PubSub();
     app.use(expressUserAgent())
     app.use("/api/auth", AuthRouter)
 
-    // app.get("/test", async (req, res) => {
-    //     try {
-    //         // const response = await getAllAccounts()
-    //         // const response = await getAccountDetail("awqaftrust.sa")
-    //         const response = await getCpanel("awqaftrust")
-    //         // console.log(response.data);
-    //         res.status(200).json(response?.data)
-    //     } catch (e) {
-    //         console.error(e);
-    //     }
-    // })
+    app.get("/test", async (req, res) => {
+        try {
+            console.log(parseDomain("example.com"));
+            console.log(parseDomain("www.google.co.uk"));
+            console.log(parseDomain("https://store.example.com.sa"));
+            console.log(parseDomain("my-site.dev"));
+            res.status(200)
+        } catch (e) {
+            console.error(e);
+        }
+    })
 
     app.get("/health-check", (req, res) => {
         try {
@@ -132,6 +133,19 @@ export const pubsub = new PubSub();
                 })
             }
 
+        } catch (error) {
+            console.error(error);
+            res.status(500).json(error);
+        }
+    })
+
+    app.post("/domain/check-domain-availability", async (req, res) => {
+        try {
+            const {domain} = req.body
+
+            const checkDomain = await checkDomainAvailability(parseDomain(domain))
+
+            res.status(200).json(checkDomain)
         } catch (error) {
             console.error(error);
             res.status(500).json(error);

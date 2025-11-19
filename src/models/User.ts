@@ -1,6 +1,7 @@
 import { Schema, model, Types } from 'mongoose';
 import MongooseDelete from 'mongoose-delete'
 import {SoftDeleteDocument} from "mongoose-delete";
+import {createDomainInOpenProvider} from "../helpers";
 
 
 export interface  UserI extends SoftDeleteDocument {
@@ -10,6 +11,14 @@ export interface  UserI extends SoftDeleteDocument {
     email: string | null
 
     phone: string | null
+    address: {
+        street: string | null
+        number: string | null
+        city: string | null
+        zipcode: string | null
+        state: string | null
+        country: string | null
+    }
 
     password: string
     role: string | null
@@ -19,6 +28,7 @@ export interface  UserI extends SoftDeleteDocument {
 
     codeVerify: string | null
     otpPassword: string | null
+    idCustomerOpenProvider: string | null
 }
 
 export const UserSchema = new Schema<UserI>({
@@ -28,6 +38,14 @@ export const UserSchema = new Schema<UserI>({
     email: { type: String, required: true, unique: false },
 
     phone: { type: String, required: true },
+    address: {
+        street: { type: String },
+        number: { type: String },
+        city: { type: String },
+        zipcode: { type: String },
+        state: { type: String },
+        country: { type: String }
+    },
 
     password: { type: String, required: true },
     role: { type: String, required: true },
@@ -37,6 +55,8 @@ export const UserSchema = new Schema<UserI>({
 
     codeVerify: { type: String },
     otpPassword: { type: String },
+
+    idCustomerOpenProvider: { type: String },
 }, {
     timestamps: true
 });
