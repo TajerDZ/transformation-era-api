@@ -119,9 +119,7 @@ export const createDomainInOpenProvider = async (idUser: string, domain: string,
         await registerDomain({
             "domain": parseDomain(domain),
             "customer": customer,
-            "name_servers": [{
-                "name": ""
-            }],
+            "name_servers": [],
             "autorenew": "on"
         })
         return true
