@@ -16,6 +16,8 @@ export interface OrderI extends SoftDeleteDocument {
     renewalDate: Date
     status: string
     domainName: string
+    domainID: string
+    domainStatus: string
 
     updated: boolean
 
@@ -46,6 +48,8 @@ export const OrderSchema = new Schema<OrderI>({
     renewalDate: { type: Date },
     status: { type: String },
     domainName: { type: String, unique: true },
+    domainID: { type: String },
+    domainStatus: { type: String },
     updated: { type: Boolean, default: false },
     timeLine: [{
         type: { type: String },

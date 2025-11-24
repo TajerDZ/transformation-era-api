@@ -2,9 +2,10 @@ import {GraphQLError} from "graphql";
 import dotenv from 'dotenv';
 import {Invoice, Notifications, Order, Product, User} from "../../models/index.js";
 import {Types} from "mongoose";
-import {buildFilter, createInvoiceMoyasar} from "../../helpers/index.js";
+import {buildFilter, createDomainInOpenProvider, createInvoiceMoyasar, parseDomain} from "../../helpers/index.js";
 import {withFilter} from "graphql-subscriptions";
 import {pubsub} from "../../index.js";
+import {renewDomain} from "../../helpers/Domains";
 
 dotenv.config();
 
@@ -257,6 +258,20 @@ export const resolvers = {
                             await Invoice.findByIdAndUpdate(invoice._id, {
                                 linkPayment: dataInvoice?.url
                             }, {includeResultMetadata: true, new: true})
+                        }
+                    }
+
+                    let product = await Product.findById(order.idProduct)
+                    if (product?.name?.trim() === "دومين أجنبي") {
+                        const domain = await createDomainInOpenProvider(order.idUser, order.domainName)
+
+                        if (domain !== null) {
+                            let {value} = await Order.findByIdAndUpdate(order._id, {
+                                domainID: domain.id,
+                                domainStatus: domain.status
+                            }, {includeResultMetadata: true, new: true})
+
+                            order = value
                         }
                     }
                 }
@@ -649,6 +664,37 @@ export const resolvers = {
                 throw new GraphQLError(error)
             }
         },
+
+        renewDomain: async (parent, {idOrder}, contextValue, info) =>  {
+            try {
+                const order = await Order.findById(idOrder);
+
+                if (order && order.domainID) {
+                    const domain = await renewDomain(order.domainID, {
+                        domain: parseDomain(order.domainName),
+                        period: 1
+                    })
+
+
+                    if (domain !== null) {
+                        let {ok, value} = await Order.findByIdAndUpdate(order._id, {
+                            domainStatus: domain.status
+                        }, {includeResultMetadata: true, new: true})
+
+
+                        return {
+                            data: value,
+                            status: ok === 1
+                        }
+                    }
+                }
+
+                return {data: null, status: false}
+            } catch (error) {
+                throw new GraphQLError(error)
+            }
+        },
+
     },
 
     Subscription: {

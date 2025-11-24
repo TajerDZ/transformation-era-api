@@ -15,6 +15,8 @@ export const typeDefs = `#graphql
         
         renewOrder(idOrder: ID!, idPrice: ID, dueDate: Date): StatusUpdateOrder @auth #@scope(requires: [order]
         upgradeOrder(idOrder: ID!, idPlan: ID, idPrice: ID): StatusUpdateOrder @auth #@scope(requires: [order]
+
+        renewDomain(idOrder: ID!): StatusUpdateOrder @auth #@scope(requires: [order]
     }
 
     type Subscription {
@@ -49,6 +51,8 @@ export const typeDefs = `#graphql
         renewalDate: Date
         status: String
         domainName: String
+        domainID: String
+        domainStatus: String
         updated: Boolean
         timeLine: [TimeLineOrder]
         lastTimeLine: TimeLineOrder
